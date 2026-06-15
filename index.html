@@ -3,111 +3,1793 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Starfleet Central Command</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Central Command | Solutions Engineering Portfolio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --primary: #00e5ff; /* Bright Neon Cyan */
-            --secondary: #0044aa; /* Deep Blue */
-            --dark: #020611; /* Space Black */
-            --bg-glow: rgba(0, 229, 255, 0.15);
+        /* 1. THE RESET & FONT MAPPING */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'League Spartan', sans-serif;
         }
+
+        /* 2. THE ENVIRONMENT (The Deep Void Buffer) */
         body {
-            background-color: var(--dark);
-            background-image: radial-gradient(circle at center, #061639 0%, var(--dark) 100%);
-            color: var(--primary);
-            font-family: 'Rajdhani', sans-serif;
+            /* Muted, deep space navy stripes so the cyan pops */
+            background: repeating-linear-gradient(
+                45deg,
+                #050B14,
+                #050B14 20px,
+                #081220 20px,
+                #081220 40px
+            );
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a3e4eb; /* A soft, readable light cyan for standard text */
+        }
+
+        /* 3. THE MASTER GRID */
+        .central-command-app {
+            width: 1920px;
+            max-width: 95vw;
+            height: 1080px;
+            max-height: 95vh;
+            
+            /* The Layout Engine */
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            grid-template-rows: 150px 1fr;
+            grid-template-areas:
+                "logo status"
+                "nav viewscreen";
+            gap: 25px; /* Spaces the glass panels apart so they float */
+        }
+
+        /* 4. THE GLASSMORPHISM ENGINE */
+        .glass-panel {
+            background: rgba(0, 229, 255, 0.02); /* 2% transparent cyan fill */
+            backdrop-filter: blur(12px); /* Frosts the background behind the panel */
+            -webkit-backdrop-filter: blur(12px); /* Safari support */
+            border: 1px solid #005963; /* The muted, inactive cyan */
+            border-radius: 8px; 
+            box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.02), 
+                        0 8px 32px 0 rgba(0, 0, 0, 0.5); /* Outer depth shadow */
+            padding: 25px;
+        }
+
+        /* -------------------------------------------------------------
+           THE ZONES
+        -------------------------------------------------------------- */
+
+        /* Element 1: Logo & ID */
+        .element-1 {
+            grid-area: logo;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            border-top: 4px solid #00E5FF; /* Vibrant primary pulse accent */
         }
-        /* The Holographic Grid Background */
-        .grid-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -1;
-            pointer-events: none;
-        }
-        /* The Main Tactical Display Box */
-        .hud-container {
-            position: relative;
-            border: 2px solid var(--secondary);
-            padding: 50px 70px;
-            background: rgba(2, 6, 17, 0.7);
-            box-shadow: 0 0 30px var(--bg-glow), inset 0 0 20px rgba(0, 68, 170, 0.5);
-            text-align: center;
+
+        .element-1 h2 {
+            color: #00E5FF;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            backdrop-filter: blur(5px);
+            letter-spacing: 2px;
+            font-size: 26px;
         }
-        /* The Targeting Brackets in the corners */
-        .hud-container::before, .hud-container::after {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--primary);
-            box-shadow: 0 0 15px var(--primary);
+
+        .element-1 p {
+            font-weight: 300;
+            font-size: 14px;
+            color: #88ddee;
+            margin-top: 5px;
+            letter-spacing: 1px;
         }
-        .hud-container::before {
-            top: -3px; left: -3px;
-            border-right: none; border-bottom: none;
+
+        /* Element 2: Fleet Status */
+        .element-2 {
+            grid-area: status;
+            display: flex;
+            gap: 15px; 
+            align-items: center;
+            border-top: 4px solid #00E5FF;
         }
-        .hud-container::after {
-            bottom: -3px; right: -3px;
-            border-left: none; border-top: none;
+
+        /* The Interactive Data Cards */
+        .status-card {
+            flex: 1; 
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #005963;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #88ddee;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px;
         }
-        .status-bar {
+
+        .status-card:hover {
+            border-color: #00E5FF;
+            color: #fff;
+            background: rgba(0, 229, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3), 
+                        inset 0 0 10px rgba(0, 229, 255, 0.2);
+        }
+
+        /* Element 4: Navigation Array */
+        .element-4 {
+            grid-area: nav;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: #88ddee;
+            border: 1px solid transparent;
+            border-left: 3px solid #005963;
+            padding: 18px 20px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 400;
+            transition: all 0.2s ease-in-out;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(90deg, rgba(0, 229, 255, 0.1) 0%, transparent 100%);
+            border-left-color: #00E5FF;
+            color: #00E5FF;
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+        }
+
+        /* THE RED ALERT KILLSWITCH */
+        .btn-killswitch {
+            margin-top: 20px; /* Physically separates it from the standard menu */
+            background: rgba(255, 0, 51, 0.05); /* Faint red glass */
+            color: #ff3333;
+            border: 1px solid rgba(255, 0, 51, 0.2);
+            border-left: 4px solid #ff0033;
+            font-weight: 900; /* Maximum thickness */
+            letter-spacing: 2px;
+            animation: redAlertPulse 2s infinite; /* Triggers the heartbeat */
+        }
+
+        /* The Heartbeat Animation */
+        @keyframes redAlertPulse {
+            0% { box-shadow: inset 0 0 0px rgba(255, 0, 51, 0); }
+            50% { 
+                box-shadow: inset 10px 0 20px rgba(255, 0, 51, 0.2); 
+                text-shadow: 0 0 8px rgba(255, 0, 51, 0.6); 
+                border-left-color: #ff4d4d;
+            }
+            100% { box-shadow: inset 0 0 0px rgba(255, 0, 51, 0); }
+        }
+
+        /* The Armed Hover State */
+        .btn-killswitch:hover {
+            background: #ff0033; /* Fills solid red */
+            color: #050B14; /* Inverts text to the dark void color */
+            border-color: #ff0033;
+            box-shadow: 0 0 25px rgba(255, 0, 51, 0.6); /* Massive external glow */
+            text-shadow: none;
+            animation: none; /* Stops the pulse so it locks in */
+            transform: scale(1.02); /* Pops out at the user slightly */
+        }
+
+        /* Element 3: Main Viewscreen */
+        .element-3 {
+            grid-area: viewscreen;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .element-3 h1 {
+            color: #00E5FF;
+            font-weight: 300;
+            font-size: 42px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+        }
+
+/* THE SPA STATE ENGINE */
+        
+        /* Hides all panels by default, but allows them to fill the room */
+        .viewscreen-panel {
+            display: none;
+            flex-direction: column;
+            align-items: flex-start; /* Anchors to the left instead of centering */
+            justify-content: flex-start; /* Anchors to the top instead of centering */
+            text-align: left;
+            width: 100%;
+            height: 100%;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        /* Reveals the active panel */
+        .viewscreen-panel.active-panel {
+            display: flex; 
+        }
+
+        /* Highlights the currently selected navigation button */
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(0, 229, 255, 0.15) 0%, transparent 100%);
+            border-left-color: #00E5FF;
+            color: #00E5FF;
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+        }
+
+        /* Animation for swapping panels smoothly */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+/* -------------------------------------------------------------
+           INTERNAL SUB-NAVIGATION (NESTED TABS)
+        -------------------------------------------------------------- */
+        
+        .sub-nav-bar {
             display: flex;
             justify-content: space-between;
-            font-size: 0.9rem;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--secondary);
-            padding-bottom: 5px;
-            color: #88ccff;
-            letter-spacing: 4px;
+            align-items: center;
+            width: 100%;
+            border-bottom: 1px solid #005963;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
-        h1 {
-            font-size: 2.5rem;
-            margin: 0 0 15px 0;
+
+        .sub-nav-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .sub-btn {
+            background: transparent;
+            color: #88ddee;
+            border: 1px solid transparent;
+            border-bottom: 3px solid transparent;
+            padding: 10px 15px;
+            font-size: 14px;
             font-weight: 700;
-            text-shadow: 0 0 20px var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        .pulse-text {
-            font-size: 1.5rem;
-            font-weight: 600;
-            animation: pulse 2s infinite;
+
+        .sub-btn:hover {
+            color: #00E5FF;
+            background: rgba(0, 229, 255, 0.05);
+        }
+
+        /* The Active Tab State */
+        .sub-btn.active-tab {
+            color: #00E5FF;
+            border-bottom-color: #00E5FF;
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+        }
+
+        /* The Topology Toggle Flex */
+        .btn-topology {
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid #00E5FF;
+            color: #00E5FF;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .btn-topology:hover {
+            background: #00E5FF;
+            color: #050B14;
+        }
+
+        /* Hide sub-panels by default */
+        .sub-panel {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Make the sub-panels stretch to the bottom */
+        .sub-panel {
+            display: none;
+            width: 100%;
+            height: calc(100% - 50px); /* Fills height minus the nav bar */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .sub-panel.active-sub-panel {
+            display: block;
+        }
+
+        /* -------------------------------------------------------------
+           COMMUNICATIONS RELAY - INTERNAL LAYOUT
+        -------------------------------------------------------------- */
+        
+        /* The Master Grid: Forces the 50/50 horizontal split */
+        .comms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 1 fraction left, 1 fraction right */
+            gap: 50px; /* Wide gap between form and terminal */
+            width: 100%; /* Forces the grid to stretch across the entire room */
+            height: calc(100% - 60px);
+            padding-top: 10px;
+        }
+
+        /* Left Side: The Form Container */
+        .transmission-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+            width: 100%; /* Forces it to stretch across its entire 50% column */
+            height: 100%; 
+        }
+
+        .transmission-form label {
+            color: #00E5FF;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+
+        .holographic-input {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #005963;
+            color: #00E5FF;
+            padding: 15px;
+            font-family: 'League Spartan', sans-serif;
+            font-size: 16px;
+            outline: none;
+            width: 100%; /* Forces the input box to stretch horizontally */
+            transition: all 0.3s ease;
+        }
+
+        .holographic-input:focus {
+            border-color: #00E5FF;
+            box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.2);
+        }
+
+        textarea.holographic-input {
+            flex-grow: 1; /* Automatically stretches to fill vertical space */
+            resize: none; 
+        }
+
+        .btn-transmit {
+            background: #00E5FF;
+            color: #050B14;
+            border: none;
+            padding: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%; /* Forces the button to stretch to match the inputs */
+            margin-top: 5px;
+        }
+
+        .btn-transmit:hover {
+            background: #fff;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.8);
+            transform: scale(1.02);
+        }
+
+        /* Right Side: The Terminal */
+        .telemetry-terminal {
+            background: #02060A; 
+            border: 1px solid #005963;
+            padding: 20px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace; 
+            font-size: 13px;
+            color: #00E5FF;
+            text-align: left;
+            width: 100%; /* Forces it to stretch across its entire 50% column */
+            height: 100%; 
+            overflow-y: auto;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+        }
+
+        .terminal-header {
+            border-bottom: 1px dashed #005963;
+            padding-bottom: 10px;
             margin-bottom: 15px;
+            color: #88ddee;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'League Spartan', sans-serif;
         }
-        .sub-text {
-            font-size: 1.1rem;
-            color: #88ccff;
+
+/* -------------------------------------------------------------
+           LCARS AI QUERY INTERFACE
+        -------------------------------------------------------------- */
+
+        /* Left Side: System Parameters */
+        .ai-parameters {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            color: #88ddee;
+            font-size: 14px;
         }
-        @keyframes pulse {
-            0% { opacity: 0.4; text-shadow: none; }
-            50% { opacity: 1; text-shadow: 0 0 25px var(--primary); }
-            100% { opacity: 0.4; text-shadow: none; }
+
+        .param-box {
+            background: rgba(0, 89, 99, 0.1);
+            border-left: 3px solid #00E5FF;
+            padding: 15px;
         }
+
+        .param-title {
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+
+        /* Right Side: Chat Window */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        .chat-history {
+            flex-grow: 1;
+            background: #02060A;
+            border: 1px solid #005963;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+        }
+
+        .chat-msg {
+            padding: 12px 15px;
+            max-width: 85%;
+            font-size: 14px;
+            line-height: 1.4;
+            font-family: 'League Spartan', sans-serif;
+        }
+
+        .msg-user {
+            align-self: flex-end; /* Pushes to the right */
+            background: rgba(0, 229, 255, 0.05);
+            border-right: 3px solid #00E5FF;
+            color: #fff;
+            text-align: right;
+        }
+
+        .msg-ai {
+            align-self: flex-start; /* Pushes to the left */
+            background: rgba(0, 89, 99, 0.2);
+            border-left: 3px solid #88ddee;
+            color: #88ddee;
+        }
+
+        .chat-input-group {
+            display: flex;
+            height: 50px;
+            margin-top: 15px;
+        }
+
+        .chat-input-group .holographic-input {
+            flex-grow: 1;
+            border-right: none; /* Merges visually with the button */
+        }
+
+        .btn-query {
+            background: #005963;
+            color: #fff;
+            border: 1px solid #005963;
+            padding: 0 25px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-query:hover {
+            background: #00E5FF;
+            color: #050B14;
+        }
+
+        /* -------------------------------------------------------------
+           COMMAND BROADCAST (CI/CD PIPELINE LOGS)
+        -------------------------------------------------------------- */
+        
+        .broadcast-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 70px);
+            margin-top: 15px;
+        }
+
+        .broadcast-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: 100%;
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+
+        .log-entry {
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 3px solid #33ff77; /* Success Green */
+            padding: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #88ddee;
+            font-size: 13px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        /* Warning state for future use if a deployment fails */
+        .log-entry.warning {
+            border-left-color: #ffaa00;
+        }
+
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            color: #fff;
+            margin-bottom: 10px;
+            font-family: 'League Spartan', sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px dashed #005963;
+            padding-bottom: 5px;
+        }
+
+        .log-hash {
+            color: #33ff77;
+            font-weight: 700;
+        }
+
+        /* -------------------------------------------------------------
+           FLEET MANAGEMENT & PROVISIONING (AZ-305 COMPUTE)
+        -------------------------------------------------------------- */
+        
+        .fleet-grid {
+            display: grid;
+            grid-template-columns: 35% 1fr; /* 35% roster, 65% right card */
+            gap: 30px;
+            width: 100%;
+            height: calc(100% - 60px);
+            margin-top: 15px;
+        }
+
+        /* --- LEFT SIDE: THE ROSTER --- */
+        .roster-container {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #005963;
+            background: rgba(0, 0, 0, 0.4);
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .roster-header {
+            background: #005963;
+            color: #fff;
+            padding: 10px 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: sticky;
+            top: 0;
+        }
+
+        .ship-item {
+            padding: 15px;
+            border-bottom: 1px solid rgba(0, 89, 99, 0.5);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ship-item:hover {
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        .ship-item.active {
+            background: rgba(0, 229, 255, 0.2);
+            border-left: 4px solid #00E5FF;
+        }
+
+        .ship-name {
+            font-weight: 700;
+            color: #88ddee;
+            font-size: 16px;
+        }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px currentColor;
+        }
+        .status-green { color: #33ff77; background: #33ff77; }
+        .status-amber { color: #ffaa00; background: #ffaa00; }
+        .status-red   { color: #ff3333; background: #ff3333; }
+
+        .btn-create-fleet {
+            background: rgba(0, 229, 255, 0.1);
+            color: #00E5FF;
+            border: 1px solid #00E5FF;
+            padding: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .btn-create-fleet:hover {
+            background: #00E5FF;
+            color: #050B14;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+        }
+
+        /* --- RIGHT SIDE: DYNAMIC WRAPPER --- */
+        .right-panel-wrapper {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .detail-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(20px);
+            padding-right: 15px;
+            overflow-y: auto;
+        }
+
+        .detail-view.active-view {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        /* Card Interiors */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid #00E5FF;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .data-section {
+            background: #02060A;
+            border: 1px solid #005963;
+            padding: 15px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        .data-section h3 {
+            color: #00E5FF;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #005963;
+            padding-bottom: 5px;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #88ddee;
+        }
+
+        .data-label { font-weight: 700; color: #fff; }
+
+        .az-tag {
+            font-size: 10px;
+            color: #005963;
+            margin-left: 8px;
+            text-transform: uppercase;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .btn-fleet {
+            flex: 1;
+            background: transparent;
+            color: #00E5FF;
+            border: 1px solid #00E5FF;
+            padding: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .btn-fleet:hover {
+            background: #00E5FF;
+            color: #050B14;
+        }
+
+        .btn-fleet.danger { color: #ff3333; border-color: #ff3333; }
+        .btn-fleet.danger:hover { background: #ff3333; color: #fff; }
+
+        /* The Provisioning Form Selectors */
+        .holographic-select {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #005963;
+            color: #00E5FF;
+            padding: 15px;
+            font-family: 'League Spartan', sans-serif;
+            font-size: 16px;
+            outline: none;
+            width: 100%;
+            cursor: pointer;
+            appearance: none;
+            background-image: linear-gradient(45deg, transparent 50%, #00E5FF 50%), linear-gradient(135deg, #00E5FF 50%, transparent 50%);
+            background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px);
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+        }
+        .holographic-select option { background: #02060A; color: #88ddee; padding: 10px; }
+
+/* -------------------------------------------------------------
+           THREAT MANAGEMENT (INTELLIGENCE & SC-100)
+        -------------------------------------------------------------- */
+        
+        .threat-grid {
+            display: grid;
+            grid-template-columns: 35% 1fr;
+            gap: 30px;
+            width: 100%;
+            height: calc(100% - 60px);
+            margin-top: 15px;
+        }
+
+        /* Left Side: Navigation Feed */
+        .incident-feed {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ffaa00;
+            background: rgba(0, 0, 0, 0.4);
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .incident-header {
+            background: #ffaa00;
+            color: #050B14;
+            padding: 10px 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        .threat-item {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 170, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .threat-item:hover {
+            background: rgba(255, 170, 0, 0.1);
+        }
+
+        .threat-item.active-threat {
+            background: rgba(255, 170, 0, 0.15);
+            border-right: 3px solid #ffaa00;
+        }
+
+        .threat-title {
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        /* The Killswitch */
+        .btn-killswitch {
+            background: rgba(255, 51, 51, 0.1);
+            color: #ff3333;
+            border: 2px solid #ff3333;
+            padding: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            margin-top: 15px;
+            box-shadow: inset 0 0 10px rgba(255, 51, 51, 0.2);
+            animation: pulse-red 2s infinite;
+        }
+
+        .btn-killswitch:hover {
+            background: #ff3333;
+            color: #050B14;
+            box-shadow: 0 0 25px rgba(255, 51, 51, 0.9);
+            animation: none;
+        }
+
+        @keyframes pulse-red {
+            0% { box-shadow: inset 0 0 10px rgba(255, 51, 51, 0.2); }
+            50% { box-shadow: inset 0 0 20px rgba(255, 51, 51, 0.5); }
+            100% { box-shadow: inset 0 0 10px rgba(255, 51, 51, 0.2); }
+        }
+
+        /* Right Side: Dynamic Views */
+        .threat-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(15px);
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+
+        .threat-view.active-threat-view {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* Kanban & Lists */
+        .kanban-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .kanban-tile {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #005963;
+            padding: 15px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+        }
+
+        .list-item-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.4);
+            border-left: 3px solid #ffaa00;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .action-button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-threat-action {
+            background: transparent;
+            color: #00E5FF;
+            border: 1px solid #00E5FF;
+            padding: 8px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-threat-action:hover {
+            background: #00E5FF;
+            color: #050B14;
+        }
+
+/* -------------------------------------------------------------
+           HOVER FIX FOR LIST ACTION BUTTONS
+        -------------------------------------------------------------- */
+        .btn-elevate:hover {
+            background: #ffaa00 !important;
+            color: #02060A !important;
+        }
+
+        #view-borg .btn-topology:hover {
+            background: #00E5FF !important;
+            color: #02060A !important;
+        }
+
+        /* -------------------------------------------------------------
+           GLOBAL FIX FOR DANGER & WARNING BUTTONS
+        -------------------------------------------------------------- */
+        
+        /* Fix for any Amber/Orange buttons (Defensive Posture) */
+        button[style*="#ffaa00"]:hover {
+            background: #ffaa00 !important;
+            color: #02060A !important;
+        }
+
+        /* Fix for any Red buttons (Offensive Response, Launch Attack) */
+        button[style*="#ff3333"]:hover {
+            background: #ff3333 !important;
+            color: #fff !important; 
+            border-color: #ff3333 !important;
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.5) !important;
+        }
+
     </style>
 </head>
 <body>
-    <div class="grid-overlay"></div>
-    <div class="hud-container">
-        <div class="status-bar">
-            <span>SEC-31 UPLINK</span>
-            <span>STATUS: STANDBY</span>
+
+    <div class="central-command-app">
+        
+        <div class="glass-panel element-1">
+            <h2>Central Command</h2>
+            <p>SEC-31 UPLINK: SECURE</p>
         </div>
-        <h1>[ SYSTEM UPDATE IN PROGRESS ]</h1>
-        <div class="pulse-text">CENTRAL COMMAND MAINTENANCE MODE</div>
-        <div class="sub-text">CONTACT YOUR COMMAND FOR FURTHER INSTRUCTION</div>
-    </div>
+
+        <div class="glass-panel element-2">
+            <button class="status-card">Ships Actively Deployed</button>
+            <button class="status-card">Active Threats</button>
+            <button class="status-card">Enemy Engaged</button>
+            <button class="status-card">Dilithium Reserves</button>
+            <button class="status-card">Active Projects</button>
+        </div>
+
+        <div class="glass-panel element-4">
+            <button class="nav-btn active" data-target="panel-comms">Communications Relay</button>
+            <button class="nav-btn" data-target="panel-fleet">Fleet Management</button>
+            <button class="nav-btn" data-target="panel-threat">Threat Management</button>
+            <button class="nav-btn" data-target="panel-asset">Asset Management</button>
+            <button class="nav-btn" data-target="panel-personnel">Personnel Management</button>
+            <button class="nav-btn" data-target="panel-shipyard">Utopia Planitia Shipyard</button>
+            <button class="nav-btn" data-target="panel-academy">Starfleet Academy</button>
+            <button class="nav-btn" data-target="panel-simulator">Command Simulator</button>
+            <button class="nav-btn" data-target="panel-resource">Resource Allocation</button>
+            <button class="nav-btn btn-killswitch" data-target="panel-earth-defense">Initiate Earth Defense</button>
+        </div>
+
+        <div class="glass-panel element-3">
+            
+            <div id="panel-comms" class="viewscreen-panel active-panel">
+                
+                <div class="sub-nav-bar">
+                    <div class="sub-nav-group">
+                        <button class="sub-btn active-tab" data-subtarget="comms-priority">Priority One Subspace</button>
+                        <button class="sub-btn" data-subtarget="comms-lcars">LCARS Query</button>
+                        <button class="sub-btn" data-subtarget="comms-broadcast">Command Broadcast</button>
+                    </div>
+                    <button class="sub-btn btn-topology">[ View Network Topology ]</button>
+                </div>
+
+                <div id="comms-priority" class="sub-panel active-sub-panel">
+                    <div class="comms-grid">
+                        <div class="transmission-form">
+                            <label>Destination Routing Alias</label>
+                            <input type="email" class="holographic-input" id="comms-email" value="joey.patrick@starfleet.command" readonly>
+                            <label>Transmission Payload (Message)</label>
+                            <textarea class="holographic-input" id="comms-message" placeholder="Enter secure payload..."></textarea>
+                            <button class="btn-transmit" id="btn-fire-comms">Encrypt & Transmit</button>
+                        </div>
+                        <div class="telemetry-terminal" id="terminal-output">
+                            <div class="terminal-header">Routing Telemetry // Standby</div>
+                            <span style="color: #88ddee;">> System initialized...</span><br>
+                            <span style="color: #88ddee;">> Awaiting payload execution...</span><br>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="comms-lcars" class="sub-panel">
+                    <div class="comms-grid">
+                        <div class="ai-parameters">
+                            <h3 style="color: #00E5FF; text-transform: uppercase; margin-bottom: 10px;">Security & Data Parameters</h3>
+                            <div class="param-box">
+                                <div class="param-title">LLM Endpoint</div>
+                                Azure OpenAI Service (GPT-4) // Private VNET Isolated
+                            </div>
+                            <div class="param-box">
+                                <div class="param-title">Vector Database</div>
+                                Azure Cosmos DB for MongoDB (vCore)
+                            </div>
+                            <div class="param-box">
+                                <div class="param-title">Active Data Indexes</div>
+                                - Joey Patrick // Solutions Engineer Career Ops<br>
+                                - Hey Nephew Managed Tech Services History<br>
+                                - The 50-Point Digital Refresh Architecture
+                            </div>
+                            <div class="param-box" style="border-left-color: #ff3333;">
+                                <div class="param-title" style="color: #ff3333;">Guardrails ACTIVE</div>
+                                System will terminate queries outside authorized vector indexes. Hallucination mitigation enforced.
+                            </div>
+                        </div>
+
+                        <div class="chat-container">
+                            <div class="chat-history" id="lcars-history">
+                                <div class="chat-msg msg-ai">
+                                    <strong>LCARS SYSTEM ACTIVE:</strong> RAG parameters verified. Awaiting authorized query regarding personnel or technical architecture.
+                                </div>
+                            </div>
+                            <div class="chat-input-group">
+                                <input type="text" class="holographic-input" id="lcars-input" placeholder="Query Cosmos DB vectors...">
+                                <button class="btn-query" id="btn-fire-query">EXECUTE</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="comms-broadcast" class="sub-panel">
+                    <h2 style="color: #00E5FF; text-transform: uppercase;">Command Broadcast Protocol</h2>
+                    <p style="color: #88ddee;">Live CI/CD deployment logs streaming via Azure DevOps Webhooks.</p>
+                    
+                    <div class="broadcast-container">
+                        <div class="broadcast-feed" id="cicd-feed">
+                            <div class="log-entry">
+                                <div class="log-header">
+                                    <span class="log-hash">[COMMIT: 8f9a2c4]</span>
+                                    <span>STARDATE: 2026.06.14</span>
+                                </div>
+                                <div>> Merged branch 'feature/lcars-rag' into main</div>
+                                <div>> Triggering Azure Logic App for Cosmos DB indexing...</div>
+                                <div style="color: #33ff77; margin-top: 5px;">[ PIPELINE SUCCESS: Deployment live on Production ]</div>
+                            </div>
+                            <div class="log-entry">
+                                <div class="log-header">
+                                    <span class="log-hash">[COMMIT: 3b1d9ef]</span>
+                                    <span>STARDATE: 2026.06.12</span>
+                                </div>
+                                <div>> Updated Entra ID zero-trust conditional access policies</div>
+                                <div>> Modified token validation routing for Google Workspace gateway</div>
+                                <div style="color: #33ff77; margin-top: 5px;">[ PIPELINE SUCCESS: Identity Access Management synced ]</div>
+                            </div>
+                            <div class="log-entry warning">
+                                <div class="log-header">
+                                    <span class="log-hash" style="color: #ffaa00;">[COMMIT: 1a4c8bb]</span>
+                                    <span>STARDATE: 2026.06.10</span>
+                                </div>
+                                <div>> Hotfix: Corrected CSS Grid overflow on Priority One Subspace interface</div>
+                                <div>> Rollback initiated on previous container image...</div>
+                                <div style="color: #ffaa00; margin-top: 5px;">[ PIPELINE WARNING: Resolved with manual override ]</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panel-fleet" class="viewscreen-panel">
+                <h1 style="color: #00E5FF; text-transform: uppercase; letter-spacing: 4px;">Fleet Telemetry & Deployment</h1>
+                <p style="color: #88ddee; margin-bottom: 20px;">Global compute routing and quadrant orchestration active.</p>
+
+                <div class="fleet-grid">
+                    
+                    <div style="display: flex; flex-direction: column; height: 100%;">
+                        <div class="roster-container">
+                            <div class="roster-header">Active Fleet Roster</div>
+                            
+                            <div class="ship-item active">
+                                <span class="ship-name">USS Defiant (NX-74205)</span>
+                                <span class="status-dot status-green" title="Active & Available"></span>
+                            </div>
+                            <div class="ship-item">
+                                <span class="ship-name">USS Enterprise (NCC-1701-D)</span>
+                                <span class="status-dot status-amber" title="On Assignment"></span>
+                            </div>
+                            <div class="ship-item">
+                                <span class="ship-name">USS Voyager (NCC-74656)</span>
+                                <span class="status-dot status-red" title="Out of Service"></span>
+                            </div>
+                            <div class="ship-item">
+                                <span class="ship-name">USS Cerritos (NCC-75567)</span>
+                                <span class="status-dot status-green" title="Active & Available"></span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-create-fleet" id="btn-open-fleet-form">[+] Initiate Fleet Formation</button>
+                    </div>
+
+                    <div class="right-panel-wrapper">
+                        
+                        <div id="view-ship-card" class="detail-view active-view">
+                            <div class="card-header">
+                                <div>
+                                    <h2 style="color: #fff; margin: 0; font-size: 28px;">USS DEFIANT <span style="color: #00E5FF; font-size: 18px;">[NX-74205]</span></h2>
+                                    <div style="color: #33ff77; font-weight: bold; margin-top: 5px;">STATUS: ACTIVE & AVAILABLE</div>
+                                </div>
+                                <div style="text-align: right; color: #88ddee; font-size: 12px;">
+                                    CLASS: ESCORT<br>
+                                    QUADRANT: ALPHA
+                                </div>
+                            </div>
+
+                            <div class="data-section">
+                                <h3>Command Staff <span class="az-tag">Entra ID / RBAC</span></h3>
+                                <div class="data-row"><span class="data-label">Commander:</span> Cpt. Benjamin Sisko</div>
+                                <div class="data-row"><span class="data-label">First Officer:</span> Maj. Kira Nerys</div>
+                                <div class="data-row"><span class="data-label">Chief of Security:</span> Odo</div>
+                                <div class="data-row"><span class="data-label">Chief Engineer:</span> Lt. Cdr. Jadzia Dax</div>
+                                <div class="data-row"><span class="data-label">Chief Medical Officer:</span> Dr. Julian Bashir</div>
+                            </div>
+
+                            <div class="data-section">
+                                <h3>Vessel Capabilities <span class="az-tag">Compute Node Specs</span></h3>
+                                <div class="data-row"><span class="data-label">Personnel Complement:</span> 50 (Standard)</div>
+                                <div class="data-row"><span class="data-label">Offensive/Defensive Yield:</span> Heavy Escort / Ablative Armor</div>
+                                <div class="data-row"><span class="data-label">Science/Terraforming:</span> Minimal / Restricted</div>
+                            </div>
+
+                            <div class="data-section">
+                                <h3>Logistics & Telemetry <span class="az-tag">Storage & FinOps</span></h3>
+                                <div class="data-row">
+                                    <span class="data-label">Available Cargo Capacity:</span> 
+                                    <span>24% <span style="color: #005963;">(1,200 MT / 5,000 MT Total)</span></span>
+                                </div>
+                                <div class="data-row">
+                                    <span class="data-label">Next Maintenance Overhaul:</span> 
+                                    <span style="color: #ffaa00;">48 Hours</span>
+                                </div>
+                                <div class="data-row">
+                                    <span class="data-label">Current Dilithium Stores:</span> 
+                                    <span style="color: #33ff77;">92% Nominal</span>
+                                </div>
+                            </div>
+
+                            <div class="card-actions">
+                                <button class="btn-fleet">Assign Personnel</button>
+                                <button class="btn-fleet">Assign Mission</button>
+                                <button class="btn-fleet danger">Place Out of Service</button>
+                            </div>
+                        </div>
+
+                        <div id="view-fleet-form" class="detail-view">
+                            <div class="card-header" style="border-bottom-color: #33ff77;">
+                                <div>
+                                    <h2 style="color: #fff; margin: 0; font-size: 28px;">CREATE SPECIALIZED FLEET</h2>
+                                    <div style="color: #33ff77; font-weight: bold; margin-top: 5px;">PROVISIONING RESOURCE GROUP ALLOCATION</div>
+                                </div>
+                                <button class="btn-topology" id="btn-cancel-fleet" style="padding: 8px 15px; margin-bottom: 5px; cursor: pointer; letter-spacing: 1px; font-weight: bold;">[ CANCEL ]</button>
+                            </div>
+
+                            <div class="transmission-form" style="margin-top: 10px;">
+                                <label>Fleet Designation (Resource Group Name)</label>
+                                <input type="text" class="holographic-input" placeholder="e.g. Task Force 31...">
+
+                                <label>Assign Fleet Commander (Entra ID: Owner)</label>
+                                <select class="holographic-select">
+                                    <option value="" disabled selected>Select commanding officer...</option>
+                                    <option value="picard">Adm. Jean-Luc Picard (Sector 001)</option>
+                                    <option value="janeway">Adm. Kathryn Janeway (Deep Space Routing)</option>
+                                    <option value="riker">Cpt. William Riker (Tactical Ops)</option>
+                                </select>
+
+                                <label>Assign Vessels (VM Scale Sets)</label>
+                                <select class="holographic-select" multiple style="height: 100px; background-image: none;">
+                                    <option value="defiant">USS Defiant (Available)</option>
+                                    <option value="cerritos">USS Cerritos (Available)</option>
+                                    <option value="titan">USS Titan (Available)</option>
+                                </select>
+                                <span style="color: #88ddee; font-size: 11px; margin-top: -10px;">* Hold Ctrl/Cmd to select multiple nodes.</span>
+
+                                <label>Assign Mission Profile (Azure Policy Initiative)</label>
+                                <select class="holographic-select">
+                                    <option value="" disabled selected>Select threat-based routing policy...</option>
+                                    <option value="borg">Borg Incursion (Max Compute / Shield Modulation)</option>
+                                    <option value="romulan">Romulan Neutral Zone (Stealth / Low Latency)</option>
+                                    <option value="diplomatic">Diplomatic Escort (High Availability)</option>
+                                </select>
+
+                                <button class="btn-transmit" style="background: #33ff77; color: #02060A; margin-top: 20px;">Deploy Fleet Architecture</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="panel-threat" class="viewscreen-panel">
+                <h1 style="color: #ff3333; text-transform: uppercase; letter-spacing: 4px; text-shadow: 0 0 15px rgba(255,51,51,0.4);">Galactic Threat Intelligence</h1>
+                <p style="color: #88ddee; margin-bottom: 20px;">SOC Perimeter Monitoring and Threat Landscape Analytics Active.</p>
+
+                <div class="threat-grid">
+                    
+                    <div style="display: flex; flex-direction: column; height: 100%;">
+                        <div class="incident-feed">
+                            <div class="incident-header">Global Scanners</div>
+                            
+                            <div class="threat-item active-threat" data-threat="view-active-engagements" style="border-left: 5px solid #ff3333;">
+                                <div class="threat-title">Active Engagements</div>
+                                <div style="color: #88ddee; font-size: 12px;">Live Mitigations & Combat Theaters</div>
+                            </div>
+
+                            <div class="threat-item" data-threat="view-adversary" style="border-left: 5px solid #ffaa00;">
+                                <div class="threat-title">Known Adversary Movements</div>
+                                <div style="color: #88ddee; font-size: 12px;">External Attack Surface Management</div>
+                            </div>
+
+                            <div class="threat-item" data-threat="view-dmz" style="border-left: 5px solid #ffff33;">
+                                <div class="threat-title">Romulan DMZ Monitoring</div>
+                                <div style="color: #88ddee; font-size: 12px;">Edge Network / Firewall Alerts</div>
+                            </div>
+
+                            <div class="threat-item" data-threat="view-borg" style="border-left: 5px solid #00E5FF;">
+                                <div class="threat-title">Borg Tracking Protocol</div>
+                                <div style="color: #88ddee; font-size: 12px;">Sentinel AI Analytics</div>
+                            </div>
+
+                            <div class="threat-item" data-threat="view-sector31" style="border-left: 5px solid #88ddee;">
+                                <div class="threat-title">Sector 31 Intelligence</div>
+                                <div style="color: #88ddee; font-size: 12px;">Classified Red Teaming Ops</div>
+                            </div>
+                        </div>
+
+                        <button class="btn-killswitch" id="btn-trigger-killswitch">[!] ACTIVATE KILLSWITCH DEFENSE</button>
+                    </div>
+
+                    <div class="right-panel-wrapper">
+                        
+                        <div id="view-active-engagements" class="threat-view active-threat-view">
+                            <h2 style="color: #ff3333; margin-bottom: 5px; text-transform: uppercase;">Active Engagements</h2>
+                            <p style="color: #88ddee; font-size: 13px;">Critical alerts requiring immediate tactical response.</p>
+                            
+                            <div class="kanban-grid">
+                                <div class="kanban-tile" style="border-color: #ff3333;">
+                                    <h3 style="color: #fff; font-size: 18px; margin: 0;">Klingon Border Dispute</h3>
+                                    <div style="color: #ffaa00; font-size: 12px; margin-top: 5px; font-weight: bold;">STATUS: ONGOING</div>
+                                    <div style="color: #88ddee; font-size: 13px; margin-top: 10px;">
+                                        <strong>Fleet Commander:</strong> Christopher Pike<br>
+                                        <strong>Ships Deployed:</strong> USS Enterprise, USS Farragut
+                                    </div>
+                                    <div class="action-button-group">
+                                        <button class="btn-threat-action">Request Peace Conf.</button>
+                                        <button class="btn-threat-action" id="btn-alliance-support">Request Alliance Support</button>
+                                        <button class="btn-threat-action">Send Offer</button>
+                                        <button class="btn-threat-action" style="color: #ff3333; border-color: #ff3333;">Launch Attack</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="view-alliance-support" class="threat-view">
+                            <div class="card-header" style="border-bottom-color: #00E5FF;">
+                                <div>
+                                    <h2 style="color: #fff; margin: 0; font-size: 28px;">TACTICAL REINFORCEMENTS</h2>
+                                    <div style="color: #00E5FF; font-weight: bold; margin-top: 5px;">REQUESTING ALLIANCE SUPPORT</div>
+                                </div>
+                                <button class="btn-topology" id="btn-back-engagements" style="padding: 8px 15px; margin-bottom: 5px; cursor: pointer; letter-spacing: 1px; font-weight: bold;">[ BACK TO ENGAGEMENT ]</button>
+                            </div>
+
+                            <div class="transmission-form" style="margin-top: 10px; height: auto;">
+                                <label>Nearby Alliance Vessels (Federation / Vulcan Partners)</label>
+                                <select class="holographic-select" id="alliance-vessel-select">
+                                    <option value="" disabled selected>Scan for nearby support vessels...</option>
+                                    <option value="vulcan">VSS Sh'Raan (Vulcan Cruiser) - ETA: 04 mins</option>
+                                    <option value="federation-1">USS Hood (Excelsior Class) - ETA: 12 mins</option>
+                                    <option value="federation-2">USS Titan (Luna Class) - ETA: 17 mins</option>
+                                </select>
+
+                                <button class="btn-transmit" id="btn-hail-alliance" style="margin-top: 15px;">Initiate Secure Hail</button>
+                            </div>
+
+                            <div class="telemetry-terminal" id="alliance-terminal" style="margin-top: 20px; height: 250px;">
+                                <div class="terminal-header">Subspace Communications // Standby</div>
+                                <span style="color: #88ddee;">> Awaiting vessel selection...</span><br>
+                            </div>
+                        </div>
+
+                        <div id="view-adversary" class="threat-view">
+                            <h2 style="color: #ffaa00; margin-bottom: 5px; text-transform: uppercase;">Adversary Movements</h2>
+                            <p style="color: #88ddee; font-size: 13px;">Unsanctioned fleet maneuvers detected outside designated boundaries.</p>
+                            
+                            <div class="list-item-action">
+                                <div>
+                                    <div style="color: #fff; font-weight: bold;">[Romulan] Identified fleet movement</div>
+                                    <div style="color: #88ddee; font-size: 12px; margin-top: 4px;">Coordinates 434 mark 122</div>
+                                </div>
+                                <button class="btn-topology btn-elevate" style="color: #ffaa00; border-color: #ffaa00; padding: 10px 15px; font-weight: bold; letter-spacing: 1px; white-space: nowrap; margin-left: 15px; cursor: pointer;">[ Elevate to Active Engagement ]</button>
+                            </div>
+
+                            <div class="list-item-action">
+                                <div>
+                                    <div style="color: #fff; font-weight: bold;">[Cardassian] Single ship movement</div>
+                                    <div style="color: #88ddee; font-size: 12px; margin-top: 4px;">Near Bajoran Sector 4</div>
+                                </div>
+                                <button class="btn-topology btn-elevate" style="color: #ffaa00; border-color: #ffaa00; padding: 10px 15px; font-weight: bold; letter-spacing: 1px; white-space: nowrap; margin-left: 15px; cursor: pointer;">[ Elevate to Active Engagement ]</button>
+                            </div>
+                        </div>
+
+                        <div id="view-dmz" class="threat-view">
+                            <h2 style="color: #ffff33; margin-bottom: 5px; text-transform: uppercase;">DMZ Perimeter Alerts</h2>
+                            <p style="color: #88ddee; font-size: 13px;">Real-time feed from edge network sensors.</p>
+                            
+                            <div class="kanban-tile" style="border-color: #ffff33;">
+                                <div style="color: #fff; font-weight: bold; font-size: 16px;">[Alert 001] U.S.S. Saratoga</div>
+                                <div style="color: #88ddee; font-size: 13px; margin-top: 5px;">Reporting Bird of Prey class warp signature at Sector 39.</div>
+                                <div class="action-button-group">
+                                    <button class="btn-threat-action">Request Dialog</button>
+                                    <button class="btn-threat-action" style="color: #ffaa00; border-color: #ffaa00;">Defensive Posture</button>
+                                    <button class="btn-threat-action" style="color: #ff3333; border-color: #ff3333;">Offensive Response</button>
+                                </div>
+                            </div>
+
+                            <div class="kanban-tile" style="border-color: #ffff33;">
+                                <div style="color: #fff; font-weight: bold; font-size: 16px;">[Alert 075] Colonial Perimeter Defense</div>
+                                <div style="color: #88ddee; font-size: 13px; margin-top: 5px;">Automated alert initiated at Cestus III outpost.</div>
+                                <div class="action-button-group">
+                                    <button class="btn-threat-action">Request Dialog</button>
+                                    <button class="btn-threat-action" style="color: #ffaa00; border-color: #ffaa00;">Defensive Posture</button>
+                                    <button class="btn-threat-action" style="color: #ff3333; border-color: #ff3333;">Offensive Response</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="view-borg" class="threat-view">
+                            <h2 style="color: #00E5FF; margin-bottom: 5px; text-transform: uppercase;">Borg Tracking Protocol</h2>
+                            <p style="color: #88ddee; font-size: 13px;">Subspace relay intelligence reports.</p>
+                            
+                            <div class="list-item-action" style="border-left-color: #00E5FF;">
+                                <div>
+                                    <div style="color: #fff; font-weight: bold;">Subspace Relay 0004</div>
+                                    <div style="color: #88ddee; font-size: 12px; margin-top: 4px;">Intelligence Report: Gravimetric distortions detected.</div>
+                                </div>
+                                <button class="btn-topology" style="color: #00E5FF; border-color: #00E5FF; padding: 10px 15px; font-weight: bold; letter-spacing: 1px; white-space: nowrap; margin-left: 15px; cursor: pointer;">[ View Logs ]</button>
+                            </div>
+                            <div class="list-item-action" style="border-left-color: #00E5FF;">
+                                <div>
+                                    <div style="color: #fff; font-weight: bold;">Subspace Relay 0323</div>
+                                    <div style="color: #88ddee; font-size: 12px; margin-top: 4px;">Intelligence Report: Transwarp conduit opening signature.</div>
+                                </div>
+                                <button class="btn-topology" style="color: #00E5FF; border-color: #00E5FF; padding: 10px 15px; font-weight: bold; letter-spacing: 1px; white-space: nowrap; margin-left: 15px; cursor: pointer;">[ View Logs ]</button>
+                            </div>
+                        </div>
+
+                        <div id="view-sector31" class="threat-view">
+                            <h2 style="color: #88ddee; margin-bottom: 5px; text-transform: uppercase;">Sector 31 Intelligence</h2>
+                            <p style="color: #88ddee; font-size: 13px;">Classified Security Operations.</p>
+                            
+                            <div class="kanban-grid" style="grid-template-columns: 1fr 1fr;">
+                                <div class="kanban-tile" style="border-color: #88ddee;">
+                                    <h3 style="color: #fff; font-size: 16px; margin: 0;">Control AI Monitoring</h3>
+                                    <div style="color: #88ddee; font-size: 12px; margin-top: 5px;">Threat Assessment: Dormant</div>
+                                </div>
+                                <div class="kanban-tile" style="border-color: #00E5FF; background: rgba(0, 229, 255, 0.1);">
+                                    <h3 style="color: #00E5FF; font-size: 16px; margin: 0; text-shadow: 0 0 10px rgba(0,229,255,0.5);">Prompt Injection Minigame</h3>
+                                    <div style="color: #88ddee; font-size: 12px; margin-top: 5px;">Launch LLM Vulnerability Simulation</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+            <div id="panel-asset" class="viewscreen-panel">
+                <h1>Asset Management</h1>
+                <p>Hardware lifecycles and supply chain telemetry synced.</p>
+            </div>
+
+            <div id="panel-personnel" class="viewscreen-panel">
+                <h1>Personnel Management</h1>
+                <p>Crew manifests and Identity Access Management (IAM) protocols active.</p>
+            </div>
+
+            <div id="panel-shipyard" class="viewscreen-panel">
+                <h1>Utopia Planitia Shipyard</h1>
+                <p>Kanban assembly interface online. Drag and drop authorized.</p>
+            </div>
+
+            <div id="panel-academy" class="viewscreen-panel">
+                <h1>Starfleet Academy</h1>
+                <p>Learning & Development modules online. Awaiting cadet login.</p>
+            </div>
+
+            <div id="panel-simulator" class="viewscreen-panel">
+                <h1>Command Simulator</h1>
+                <p>Kobayashi Maru parameters loaded. Threat environment generated.</p>
+            </div>
+
+            <div id="panel-resource" class="viewscreen-panel">
+                <h1>Resource Allocation</h1>
+                <p>FinOps dashboard running. Monitoring Azure compute usage.</p>
+            </div>
+
+            <div id="panel-earth-defense" class="viewscreen-panel">
+                <h1 style="color: #ff3333; text-shadow: 0 0 20px rgba(255,51,51,0.5);">PROTOCOL ALPHA ENGAGED</h1>
+                <p style="color: #ff3333;">System locked. Cryptographic bypass required.</p>
+            </div>
+
+        </div>
+
+<script>
+        // 1. Grab all the navigation buttons and all the viewscreen panels
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const panels = document.querySelectorAll('.viewscreen-panel');
+
+        // 2. Listen for clicks on every single button
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                
+                // Get the target ID from the button we just clicked
+                const targetId = button.getAttribute('data-target');
+
+                // 3. Deactivate everything first (Clear the board)
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                panels.forEach(panel => panel.classList.remove('active-panel'));
+
+                // 4. Activate only the button that was clicked and its matching panel
+                button.classList.add('active');
+                
+                // Check if the panel actually exists before trying to show it
+                const targetPanel = document.getElementById(targetId);
+                if (targetPanel) {
+                    targetPanel.classList.add('active-panel');
+                }
+            });
+        });
+
+// --- INTERNAL TAB SWITCHBOARD ---
+        const subButtons = document.querySelectorAll('.sub-btn[data-subtarget]');
+        const subPanels = document.querySelectorAll('.sub-panel');
+
+        subButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-subtarget');
+
+                // Find the parent room of this button so we only affect tabs in THIS room
+                const parentPanel = button.closest('.viewscreen-panel');
+                const localButtons = parentPanel.querySelectorAll('.sub-btn[data-subtarget]');
+                const localPanels = parentPanel.querySelectorAll('.sub-panel');
+
+                // Deactivate local tabs
+                localButtons.forEach(btn => btn.classList.remove('active-tab'));
+                localPanels.forEach(panel => panel.classList.remove('active-sub-panel'));
+
+                // Activate clicked tab
+                button.classList.add('active-tab');
+                document.getElementById(targetId).classList.add('active-sub-panel');
+            });
+        });
+
+    </script>
+
+<script>
+        // Grab the button, the message box, and the terminal
+        const transmitBtn = document.getElementById('btn-fire-comms');
+        const messageInput = document.getElementById('comms-message');
+        const terminalOutput = document.getElementById('terminal-output');
+
+        transmitBtn.addEventListener('click', () => {
+            // Prevent spam-clicking by disabling the button temporarily
+            transmitBtn.disabled = true;
+            transmitBtn.innerText = "TRANSMITTING...";
+            transmitBtn.style.background = "#ff3333"; // Turns red during active transmit
+            transmitBtn.style.color = "#fff";
+
+            // Grab the text they typed (or default if empty)
+            const payloadLength = messageInput.value.length > 0 ? messageInput.value.length : 128;
+
+            // Clear the terminal for a fresh transmission
+            terminalOutput.innerHTML = `
+                <div class="terminal-header">Routing Telemetry // Active</div>
+            `;
+
+            // Function to add a new line to the terminal with a typing effect
+            function logTelemetry(message, delay) {
+                setTimeout(() => {
+                    const newLine = document.createElement('div');
+                    newLine.style.color = "#00E5FF";
+                    newLine.style.marginTop = "5px";
+                    newLine.innerText = `> ${message}`;
+                    terminalOutput.appendChild(newLine);
+                    
+                    // Auto-scroll to the bottom as new lines appear
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                }, delay);
+            }
+
+            // The Simulated Azure Routing Sequence (The Flex)
+            logTelemetry(`Initializing POST sequence. Payload size: ${payloadLength} bytes...`, 500);
+            logTelemetry(`Connecting to https://centralcommand-api.azurewebsites.net...`, 1500);
+            logTelemetry(`Azure API Management Gateway intercepting request...`, 2800);
+            logTelemetry(`Authenticating via Entra ID (OAuth 2.0)...`, 4200);
+            logTelemetry(`Token validated. Forwarding to Serverless Logic App...`, 5500);
+            logTelemetry(`Translating JSON payload for Google Workspace API...`, 7000);
+            logTelemetry(`200 OK: Payload successfully routed to heynephew.tech endpoint.`, 8500);
+
+            // Reset the UI after the sequence finishes
+            setTimeout(() => {
+                transmitBtn.disabled = false;
+                transmitBtn.innerText = "ENCRYPT & TRANSMIT";
+                transmitBtn.style.background = "#00E5FF";
+                transmitBtn.style.color = "#050B14";
+                messageInput.value = ""; // Clears the input box
+
+                const successLine = document.createElement('div');
+                successLine.style.color = "#33ff77"; // Success green
+                successLine.style.marginTop = "15px";
+                successLine.style.fontWeight = "bold";
+                successLine.innerText = `[ TRANSMISSION COMPLETE ]`;
+                terminalOutput.appendChild(successLine);
+            }, 9500);
+        });
+
+// --- SUB-PANEL B: LCARS AI QUERY SIMULATOR ---
+        const queryBtn = document.getElementById('btn-fire-query');
+        const lcarsInput = document.getElementById('lcars-input');
+        const lcarsHistory = document.getElementById('lcars-history');
+
+        queryBtn.addEventListener('click', () => {
+            const userText = lcarsInput.value.trim();
+            if (userText === "") return; // Don't send empty messages
+
+            // 1. Post the User's Message
+            const userMsgObj = document.createElement('div');
+            userMsgObj.className = "chat-msg msg-user";
+            userMsgObj.innerText = userText;
+            lcarsHistory.appendChild(userMsgObj);
+            
+            // Clear input and disable button temporarily
+            lcarsInput.value = "";
+            queryBtn.disabled = true;
+            lcarsHistory.scrollTop = lcarsHistory.scrollHeight;
+
+            // 2. Post a "Searching" indicator
+            setTimeout(() => {
+                const searchIndicator = document.createElement('div');
+                searchIndicator.className = "chat-msg msg-ai";
+                searchIndicator.id = "temp-search";
+                searchIndicator.innerHTML = "<em>[ Parsing request... initializing Cosmos DB vector search... ]</em>";
+                lcarsHistory.appendChild(searchIndicator);
+                lcarsHistory.scrollTop = lcarsHistory.scrollHeight;
+            }, 600);
+
+            // 3. Post the Simulated AI Response
+            setTimeout(() => {
+                // Remove the "searching" text
+                document.getElementById('temp-search').remove();
+
+                const aiMsgObj = document.createElement('div');
+                aiMsgObj.className = "chat-msg msg-ai";
+                
+                // The Flex: A canned enterprise response proving your value
+                aiMsgObj.innerHTML = `<strong>VECTOR MATCH FOUND:</strong> Joey Patrick is a Solutions Engineer with deep expertise in Google Workspace administration and Microsoft Azure infrastructure. Recent logs indicate successful pivot to zero-trust deployments and CI/CD pipelines. <br><br><em>Status: Highly recommended for technical enterprise sales engagements.</em>`;
+                
+                lcarsHistory.appendChild(aiMsgObj);
+                lcarsHistory.scrollTop = lcarsHistory.scrollHeight;
+                
+                // Re-enable button
+                queryBtn.disabled = false;
+            }, 2500); // 2.5 second delay to mimic database processing time
+        });
+
+        // Allow pressing "Enter" to trigger the button
+        lcarsInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                queryBtn.click();
+            }
+        });
+
+// --- FLEET WIZARD TOGGLE LOGIC ---
+        const btnOpenForm = document.getElementById('btn-open-fleet-form');
+        const btnCancelForm = document.getElementById('btn-cancel-fleet');
+        const viewShipCard = document.getElementById('view-ship-card');
+        const viewFleetForm = document.getElementById('view-fleet-form');
+
+        if(btnOpenForm && btnCancelForm) {
+            btnOpenForm.addEventListener('click', () => {
+                viewShipCard.classList.remove('active-view');
+                viewFleetForm.classList.add('active-view');
+            });
+
+            btnCancelForm.addEventListener('click', () => {
+                viewFleetForm.classList.remove('active-view');
+                viewShipCard.classList.add('active-view');
+            });
+        }
+
+// --- THREAT MANAGEMENT ROUTING LOGIC ---
+        
+        // 1. Internal Sub-Navigation for Threat Views
+        const threatNavItems = document.querySelectorAll('.threat-item[data-threat]');
+        const threatViews = document.querySelectorAll('.threat-view');
+
+        threatNavItems.forEach(item => {
+            item.addEventListener('click', () => {
+                threatNavItems.forEach(nav => nav.classList.remove('active-threat'));
+                threatViews.forEach(view => view.classList.remove('active-threat-view'));
+
+                item.classList.add('active-threat');
+                const targetId = item.getAttribute('data-threat');
+                document.getElementById(targetId).classList.add('active-threat-view');
+            });
+        });
+
+        // 2. The Killswitch: Routes to Earth Defense Room
+        const btnTriggerKillswitch = document.getElementById('btn-trigger-killswitch');
+        if(btnTriggerKillswitch) {
+            btnTriggerKillswitch.addEventListener('click', () => {
+                const earthNavBtn = document.querySelector('.nav-btn[data-target="panel-earth-defense"]');
+                if(earthNavBtn) earthNavBtn.click();
+            });
+        }
+
+        // 3. Elevate Threat: Routes to Fleet Management -> Create Fleet View
+        const btnElevateThreats = document.querySelectorAll('.btn-elevate');
+        btnElevateThreats.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Click the main Fleet Management tab
+                const fleetNavBtn = document.querySelector('.nav-btn[data-target="panel-fleet"]');
+                if(fleetNavBtn) fleetNavBtn.click();
+
+                // Wait a split second for the room to render, then trigger the Provisioning form
+                setTimeout(() => {
+                    const btnOpenFleet = document.getElementById('btn-open-fleet-form');
+                    if(btnOpenFleet) btnOpenFleet.click();
+                }, 150); 
+            });
+        });
+
+// --- ALLIANCE SUPPORT ROUTING & TERMINAL ---
+        const btnAllianceSupport = document.getElementById('btn-alliance-support');
+        const btnBackEngagements = document.getElementById('btn-back-engagements');
+        const viewActiveEngagements = document.getElementById('view-active-engagements');
+        const viewAllianceSupport = document.getElementById('view-alliance-support');
+        
+        const btnHailAlliance = document.getElementById('btn-hail-alliance');
+        const allianceTerminal = document.getElementById('alliance-terminal');
+        const allianceSelect = document.getElementById('alliance-vessel-select');
+
+        if (btnAllianceSupport && viewAllianceSupport) {
+            // Swap to the Alliance Screen
+            btnAllianceSupport.addEventListener('click', () => {
+                viewActiveEngagements.classList.remove('active-threat-view');
+                viewAllianceSupport.classList.add('active-threat-view');
+            });
+
+            // Go back to the Engagement Screen
+            btnBackEngagements.addEventListener('click', () => {
+                viewAllianceSupport.classList.remove('active-threat-view');
+                viewActiveEngagements.classList.add('active-threat-view');
+                
+                // Reset terminal for the next time
+                allianceTerminal.innerHTML = `
+                    <div class="terminal-header">Subspace Communications // Standby</div>
+                    <span style="color: #88ddee;">> Awaiting vessel selection...</span><br>
+                `;
+                if(btnHailAlliance) {
+                    btnHailAlliance.disabled = false;
+                    btnHailAlliance.innerText = "Initiate Secure Hail";
+                    btnHailAlliance.style.background = "#00E5FF";
+                    btnHailAlliance.style.color = "#050B14";
+                }
+            });
+
+            // The Hailing Sequence Simulation
+            btnHailAlliance.addEventListener('click', () => {
+                // Check if the button is in its final "Close" state
+                if(btnHailAlliance.innerText === "TRANSMIT TACTICAL DATA & CLOSE") {
+                    const closeLine = document.createElement('div');
+                    closeLine.style.color = "#ffaa00";
+                    closeLine.style.marginTop = "5px";
+                    closeLine.innerText = `> Tactical telemetry sent. Closing channel...`;
+                    allianceTerminal.appendChild(closeLine);
+                    allianceTerminal.scrollTop = allianceTerminal.scrollHeight;
+                    
+                    // Automatically route them back to the engagement screen
+                    setTimeout(() => {
+                        btnBackEngagements.click(); 
+                    }, 1500);
+                    return;
+                }
+
+                if(!allianceSelect.value) {
+                    alert("COMMAND ERROR: Please select a vessel to hail from the dropdown.");
+                    return;
+                }
+
+                btnHailAlliance.disabled = true;
+                btnHailAlliance.innerText = "OPENING CHANNEL...";
+                btnHailAlliance.style.background = "#ffaa00";
+
+                allianceTerminal.innerHTML = `<div class="terminal-header">Subspace Communications // Active</div>`;
+
+                function logAlliance(message, delay) {
+                    setTimeout(() => {
+                        const newLine = document.createElement('div');
+                        newLine.style.color = "#00E5FF";
+                        newLine.style.marginTop = "5px";
+                        newLine.innerText = `> ${message}`;
+                        allianceTerminal.appendChild(newLine);
+                        allianceTerminal.scrollTop = allianceTerminal.scrollHeight;
+                    }, delay);
+                }
+
+                // The Azure Networking Flex
+                logAlliance(`Initializing secure subspace link...`, 500);
+                logAlliance(`Routing traffic through Azure ExpressRoute (Sector 4 Gateway)...`, 1500);
+                logAlliance(`Bypassing local interference via BGP path selection...`, 2800);
+                logAlliance(`Hailing frequency locked to Target IP: 104.40.211.35 (Port 443)...`, 4200);
+                logAlliance(`Establishing TLS 1.3 cryptographic handshake...`, 5500);
+                logAlliance(`200 OK: Secure channel established.`, 7000);
+
+                // The Narrative Payoff based on selection
+                let shipResponse = "";
+                if(allianceSelect.value === "vulcan") shipResponse = "VSS Sh'Raan: Logic dictates we assist. Intercept course laid in. ETA 4 minutes.";
+                else if(allianceSelect.value === "federation-1") shipResponse = "USS Hood: We read you loud and clear. Shields up, weapons armed.";
+                else if(allianceSelect.value === "federation-2") shipResponse = "USS Titan: Dropping out of warp. Engaging hostile targets now.";
+
+                setTimeout(() => {
+                    const replyLine = document.createElement('div');
+                    replyLine.style.color = "#fff";
+                    replyLine.style.fontWeight = "bold";
+                    replyLine.style.marginTop = "15px";
+                    replyLine.style.borderLeft = "3px solid #33ff77";
+                    replyLine.style.paddingLeft = "10px";
+                    replyLine.innerText = `[INCOMING TRANSMISSION] ${shipResponse}`;
+                    allianceTerminal.appendChild(replyLine);
+                    allianceTerminal.scrollTop = allianceTerminal.scrollHeight;
+                    
+                    // Enable the button to close the loop
+                    btnHailAlliance.disabled = false;
+                    btnHailAlliance.innerText = "TRANSMIT TACTICAL DATA & CLOSE";
+                    btnHailAlliance.style.background = "#33ff77";
+                    btnHailAlliance.style.color = "#02060A";
+                }, 8500);
+            });
+        }
+
+    </script>
+
 </body>
 </html>
