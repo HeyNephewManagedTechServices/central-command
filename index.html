@@ -972,6 +972,84 @@
             box-shadow: 0 0 15px rgba(255, 51, 51, 0.5) !important;
         }
 
+/* -------------------------------------------------------------
+           SUPPLY CHAIN & LOGISTICS GRID STYLES
+        -------------------------------------------------------------- */
+        .logistics-grid {
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            background: rgba(2, 6, 10, 0.6);
+            border-radius: 4px;
+        }
+
+        .logistics-header {
+            display: grid;
+            grid-template-columns: 1.5fr 1.5fr 2fr 1.5fr;
+            padding: 12px 15px;
+            border-bottom: 1px solid #00E5FF;
+            color: #00E5FF;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 13px;
+        }
+
+        .logistics-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1.5fr 2fr 1.5fr;
+            padding: 15px;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+            align-items: center;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .logistics-row:hover {
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        .logistics-row:last-child {
+            border-bottom: none;
+        }
+
+/* -------------------------------------------------------------
+           PERSONNEL MANAGEMENT GRID STYLES
+        -------------------------------------------------------------- */
+        .personnel-grid {
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            background: rgba(2, 6, 10, 0.6);
+            border-radius: 4px;
+        }
+
+        .personnel-header {
+            display: grid;
+            grid-template-columns: 1.5fr 1.5fr 1.5fr 1.5fr;
+            padding: 12px 15px;
+            border-bottom: 1px solid #00E5FF;
+            color: #00E5FF;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 13px;
+        }
+
+        .personnel-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1.5fr 1.5fr 1.5fr;
+            padding: 15px;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+            align-items: center;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .personnel-row:hover {
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        .personnel-row:last-child {
+            border-bottom: none;
+        }
+
     </style>
 </head>
 <body>
@@ -1413,14 +1491,172 @@
 
                     </div>
 
-            <div id="panel-asset" class="viewscreen-panel">
-                <h1>Asset Management</h1>
-                <p>Hardware lifecycles and supply chain telemetry synced.</p>
+            </div> </div> <div id="panel-asset" class="viewscreen-panel">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 2px solid #00E5FF; padding-bottom: 10px; width: 100%;">
+                    <div>
+                        <h1 style="color: #00E5FF; text-transform: uppercase; letter-spacing: 4px; margin: 0; text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);">Federation Supply Chain Diagnostics</h1>
+                        <p style="color: #88ddee; font-size: 14px; margin-top: 5px;">Live Telemetry: Dilithium // Deuterium // Bio-Neural Logistics</p>
+                    </div>
+                    <button class="btn-topology" style="padding: 10px 15px; font-weight: bold; white-space: nowrap; cursor: pointer;">[ Run Predictive Analysis ]</button>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; width: 100%;">
+                    <div style="background: rgba(2, 6, 10, 0.6); border: 1px solid #33ff77; padding: 15px; border-radius: 4px;">
+                        <div style="color: #88ddee; font-size: 12px; text-transform: uppercase;">Universal Deuterium Reserves</div>
+                        <div style="color: #33ff77; font-size: 28px; font-weight: bold; margin: 5px 0;">84.2%</div>
+                        <div style="color: #88ddee; font-size: 12px;">Status: <span style="color: #33ff77;">Nominal</span> | 42 Depots</div>
+                    </div>
+                    <div style="background: rgba(2, 6, 10, 0.6); border: 1px solid #ffaa00; padding: 15px; border-radius: 4px;">
+                        <div style="color: #88ddee; font-size: 12px; text-transform: uppercase;">Bio-Neural Gel Packs</div>
+                        <div style="color: #ffaa00; font-size: 28px; font-weight: bold; margin: 5px 0;">12,450 Units</div>
+                        <div style="color: #88ddee; font-size: 12px;">Status: <span style="color: #ffaa00;">High Demand</span> | ETA 4 Days</div>
+                    </div>
+                    <div style="background: rgba(2, 6, 10, 0.6); border: 1px solid #ff3333; padding: 15px; border-radius: 4px; box-shadow: inset 0 0 15px rgba(255, 51, 51, 0.2);">
+                        <div style="color: #88ddee; font-size: 12px; text-transform: uppercase;">Dilithium Matrix Output</div>
+                        <div style="color: #ff3333; font-size: 28px; font-weight: bold; margin: 5px 0;">18.5%</div>
+                        <div style="color: #88ddee; font-size: 12px;">Status: <span style="color: #ff3333;">Critical Shortage (Sector 4)</span></div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 20px; width: 100%;">
+                    <div style="flex: 2;">
+                        <h2 style="color: #00E5FF; font-size: 16px; text-transform: uppercase; margin-bottom: 15px;">Active Transport Telemetry (IoT Hub)</h2>
+                        
+                        <div class="logistics-grid">
+                            <div class="logistics-header">
+                                <div>Transport Vessel</div>
+                                <div>Cargo payload</div>
+                                <div>Route / Destination</div>
+                                <div>Telemetry</div>
+                            </div>
+
+                            <div class="logistics-row">
+                                <div style="color: #fff; font-weight: bold;">SS Antares (Freighter)</div>
+                                <div style="color: #ffaa00;">Bio-Neural Gel Packs</div>
+                                <div style="color: #88ddee;">Jupiter Station &rarr; Deep Space 9</div>
+                                <div style="color: #33ff77;">Warp 4.2 [On Schedule]</div>
+                            </div>
+
+                            <div class="logistics-row">
+                                <div style="color: #fff; font-weight: bold;">USS Huron (Supply Ship)</div>
+                                <div style="color: #ff3333;">Dilithium Crystals</div>
+                                <div style="color: #88ddee;">Coridan Core &rarr; Starbase 84</div>
+                                <div id="huron-status" style="color: #ffaa00;">Sublight [Ion Storm Delay]</div>
+                            </div>
+
+                            <div class="logistics-row">
+                                <div style="color: #fff; font-weight: bold;">Kobayashi Maru (Class 3)</div>
+                                <div style="color: #88ddee;">Deuterium Gas</div>
+                                <div style="color: #88ddee;">Altair VI &rarr; Sector 001</div>
+                                <div style="color: #33ff77;">Warp 6.0 [On Schedule]</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="flex: 1; background: rgba(2, 6, 10, 0.6); border: 1px solid #00E5FF; padding: 15px; border-radius: 4px;">
+                        <h2 style="color: #ffaa00; font-size: 16px; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid rgba(255,170,0,0.3); padding-bottom: 5px;">Sector Inventory Alerts</h2>
+                        
+                        <div style="margin-bottom: 15px; border-left: 3px solid #ff3333; padding-left: 10px;">
+                            <div style="color: #ff3333; font-weight: bold; font-size: 14px;">Sector 4: Dilithium Critical</div>
+                            <div style="color: #88ddee; font-size: 12px; margin-top: 5px;">Consumption exceeding replenishment by 42%. Recommend immediate rerouting of USS Huron.</div>
+                            <button id="btn-reroute" class="btn-topology" style="font-size: 11px; padding: 4px 8px; margin-top: 8px; color: #ff3333; border-color: #ff3333; cursor: pointer;">[ Execute Reroute ]</button>
+                        </div>
+
+                        <div style="margin-bottom: 15px; border-left: 3px solid #ffaa00; padding-left: 10px;">
+                            <div style="color: #ffaa00; font-weight: bold; font-size: 14px;">DS9: Bio-Neural Degradation</div>
+                            <div style="color: #88ddee; font-size: 12px; margin-top: 5px;">Storage facility beta reporting micro-fractures. Gel pack integrity at 88%.</div>
+                            <button class="btn-topology" style="font-size: 11px; padding: 4px 8px; margin-top: 8px; color: #ffaa00; border-color: #ffaa00;">[ Dispatch Engineering ]</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="panel-personnel" class="viewscreen-panel">
-                <h1>Personnel Management</h1>
-                <p>Crew manifests and Identity Access Management (IAM) protocols active.</p>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 2px solid #00E5FF; padding-bottom: 10px; width: 100%;">
+                    <div>
+                        <h1 style="color: #00E5FF; text-transform: uppercase; letter-spacing: 4px; margin: 0; text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);">Identity & Access Management</h1>
+                        <p style="color: #88ddee; font-size: 14px; margin-top: 5px;">Entra ID Directory // Zero Trust Conditional Access</p>
+                    </div>
+                    <button class="btn-topology" style="padding: 10px 15px; font-weight: bold; white-space: nowrap; cursor: pointer;">[ Audit Role Assignments ]</button>
+                </div>
+
+                <div style="display: flex; gap: 20px; width: 100%;">
+                    <div style="flex: 2;">
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px;">
+                            <h2 style="color: #00E5FF; font-size: 16px; text-transform: uppercase; margin: 0;">Active Directory Manifest</h2>
+                            <select class="holographic-select" style="width: auto; padding: 5px 30px 5px 10px; font-size: 12px; height: auto;">
+                                <option>Filter: All Personnel</option>
+                                <option>Command Corps</option>
+                                <option>Science & Medical</option>
+                                <option>Engineering</option>
+                                <option>Security</option>
+                                <option>Operations</option>
+                                <option>Academy</option>
+                                <option>Fleet Reserve</option>
+                            </select>
+                        </div>
+                        
+                        <div class="personnel-grid">
+                            <div class="personnel-header">
+                                <div>Officer Identity</div>
+                                <div>Division [Security Group]</div>
+                                <div>Assignment</div>
+                                <div>Biometric Signature [Auth]</div>
+                            </div>
+
+                            <div class="personnel-row">
+                                <div style="color: #fff; font-weight: bold;">Cpt. Picard, J.</div>
+                                <div style="color: #ff3333;">Command Corps</div>
+                                <div style="color: #88ddee;">USS Enterprise</div>
+                                <div style="color: #33ff77;">FIDO2 / Validated</div>
+                            </div>
+
+                            <div class="personnel-row">
+                                <div style="color: #fff; font-weight: bold;">Dr. Crusher, B.</div>
+                                <div style="color: #00E5FF;">Science & Medical</div>
+                                <div style="color: #88ddee;">USS Enterprise</div>
+                                <div style="color: #33ff77;">AES-256 / Validated</div>
+                            </div>
+
+                            <div class="personnel-row">
+                                <div style="color: #fff; font-weight: bold;">Lt. Cdr. La Forge, G.</div>
+                                <div style="color: #ffaa00;">Engineering</div>
+                                <div style="color: #88ddee;">Utopia Planitia</div>
+                                <div style="color: #33ff77;">MFA / Validated</div>
+                            </div>
+
+                            <div class="personnel-row">
+                                <div style="color: #fff; font-weight: bold;">Ens. Mariner, B.</div>
+                                <div style="color: #ffaa00;">Operations</div>
+                                <div style="color: #88ddee;">USS Cerritos</div>
+                                <div style="color: #ff3333;">Conditional Block [Location]</div>
+                            </div>
+
+                            <div class="personnel-row">
+                                <div style="color: #fff; font-weight: bold;">Adm. Paris, O.</div>
+                                <div style="color: #88ddee;">Fleet Reserve</div>
+                                <div style="color: #88ddee;">Earth Spacedock</div>
+                                <div style="color: #ffaa00;">Inactive / Archived</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="flex: 1; background: rgba(2, 6, 10, 0.6); border: 1px solid #ffaa00; padding: 15px; border-radius: 4px; display: flex; flex-direction: column;">
+                        <h2 style="color: #ffaa00; font-size: 16px; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid rgba(255,170,0,0.3); padding-bottom: 5px;">Pending PIM Requests</h2>
+                        
+                        <div style="background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3); padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+                            <div style="color: #fff; font-weight: bold; font-size: 14px;">Elevation Request: Ens. B. Boimler</div>
+                            <div style="color: #88ddee; font-size: 12px; margin-top: 5px;">Requested Role: <span style="color: #ffaa00;">Warp Core Diagnostics [Elevated]</span></div>
+                            <div style="color: #88ddee; font-size: 12px;">Duration: 2 Hours</div>
+                            <div style="color: #88ddee; font-size: 12px; margin-bottom: 10px;">Justification: Emergency containment patch override.</div>
+                            
+                            <div id="pim-status-area">
+                                <button id="btn-approve-pim" class="btn-topology" style="font-size: 12px; padding: 8px 10px; color: #33ff77; border-color: #33ff77; cursor: pointer; width: 100%; font-weight: bold;">[ Approve JIT Access ]</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="panel-shipyard" class="viewscreen-panel">
@@ -1786,6 +2022,83 @@
                     btnHailAlliance.style.background = "#33ff77";
                     btnHailAlliance.style.color = "#02060A";
                 }, 8500);
+            });
+        }
+
+// --- SUPPLY CHAIN: AUTOMATED REROUTE DEMO ---
+        const btnReroute = document.getElementById('btn-reroute');
+        const huronStatus = document.getElementById('huron-status');
+
+        if (btnReroute && huronStatus) {
+            btnReroute.addEventListener('click', () => {
+                // Disable button so they can't spam it
+                btnReroute.disabled = true;
+                btnReroute.innerText = "[ Calculating Path... ]";
+                btnReroute.style.color = "#ffaa00";
+                btnReroute.style.borderColor = "#ffaa00";
+
+                // Simulate the Azure Synapse / AI Optimization delay
+                setTimeout(() => {
+                    btnReroute.innerText = "[ Reroute Executed ]";
+                    btnReroute.style.color = "#33ff77";
+                    btnReroute.style.borderColor = "#33ff77";
+
+                    // Update the actual grid to show the problem is solved
+                    huronStatus.innerHTML = `Warp 8.5 <span style="color: #fff; font-size: 11px;">[Intercept Course Locked]</span>`;
+                    huronStatus.style.color = "#33ff77";
+                    
+                    // Add a quick visual flash to the row to draw the eye
+                    const huronRow = huronStatus.parentElement;
+                    huronRow.style.background = "rgba(51, 255, 119, 0.2)";
+                    setTimeout(() => {
+                        huronRow.style.background = "transparent";
+                    }, 800);
+
+                }, 1500);
+            });
+        }
+
+// --- PERSONNEL: PIM / JIT ACCESS DEMO (AZ-305) ---
+        const btnApprovePim = document.getElementById('btn-approve-pim');
+        const pimStatusArea = document.getElementById('pim-status-area');
+
+        if (btnApprovePim && pimStatusArea) {
+            btnApprovePim.addEventListener('click', () => {
+                btnApprovePim.style.display = 'none';
+                
+                pimStatusArea.innerHTML = `<div style="color: #00E5FF; font-size: 12px; font-style: italic;">Evaluating Conditional Access Policy...</div>`;
+
+                setTimeout(() => {
+                    pimStatusArea.innerHTML = `<div style="color: #00E5FF; font-size: 12px; font-style: italic;">Verifying Location & Device Health...</div>`;
+                }, 1000);
+
+                setTimeout(() => {
+                    pimStatusArea.innerHTML = `
+                        <div style="border-top: 1px solid rgba(51, 255, 119, 0.3); padding-top: 10px; margin-top: 10px;">
+                            <div style="color: #33ff77; font-weight: bold; font-size: 13px;">[ ACCESS GRANTED ]</div>
+                            <div style="color: #88ddee; font-size: 12px;">Role Active: Warp Core Diagnostics</div>
+                            <div style="color: #ff3333; font-weight: bold; font-size: 14px; margin-top: 5px; font-family: 'Courier New', monospace;">Time Remaining: <span id="jit-timer">01:59:59</span></div>
+                        </div>
+                    `;
+                    
+                    // The live countdown timer simulation
+                    let timeRemaining = 7199; // 2 hours in seconds
+                    const timerSpan = document.getElementById('jit-timer');
+                    
+                    const countdown = setInterval(() => {
+                        timeRemaining--;
+                        let hours = Math.floor(timeRemaining / 3600);
+                        let minutes = Math.floor((timeRemaining % 3600) / 60);
+                        let seconds = timeRemaining % 60;
+                        
+                        if(timerSpan) {
+                            timerSpan.innerText = 
+                                `0${hours}:${minutes < 10 ? '0'+minutes : minutes}:${seconds < 10 ? '0'+seconds : seconds}`;
+                        }
+                        if(timeRemaining <= 0) clearInterval(countdown);
+                    }, 1000);
+
+                }, 2500);
             });
         }
 
