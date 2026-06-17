@@ -1050,6 +1050,124 @@
             border-bottom: none;
         }
 
+/* -------------------------------------------------------------
+           UTOPIA PLANITIA SHIPYARD KANBAN STYLES
+        -------------------------------------------------------------- */
+        .shipyard-board {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            height: calc(100% - 70px);
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .shipyard-column {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(2, 6, 10, 0.6);
+            border: 1px solid #005963;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .shipyard-col-header {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px 15px;
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            border-top: 4px solid #005963; /* Overridden inline per column */
+            border-bottom: 1px solid #005963;
+        }
+
+        .shipyard-dropzone {
+            flex-grow: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+            transition: background 0.2s ease;
+        }
+
+        /* Highlight column when hovering a card over it */
+        .shipyard-dropzone.drag-over {
+            background: rgba(0, 229, 255, 0.05);
+            box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.2);
+        }
+
+        .shipyard-card {
+            background: #02060A;
+            border: 1px solid #005963;
+            padding: 15px;
+            cursor: grab;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.1s ease, border-color 0.2s ease;
+        }
+
+        .shipyard-card:hover {
+            border-color: #00E5FF;
+        }
+
+        .shipyard-card:active {
+            cursor: grabbing;
+        }
+
+        .shipyard-card.is-dragging {
+            opacity: 0.5;
+            border: 1px dashed #00E5FF;
+            transform: scale(0.98);
+        }
+
+        .card-type {
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 2px;
+        }
+
+        .type-maintenance { background: rgba(255, 170, 0, 0.2); color: #ffaa00; border: 1px solid #ffaa00; }
+        .type-new { background: rgba(0, 229, 255, 0.2); color: #00E5FF; border: 1px solid #00E5FF; }
+        .type-special { background: rgba(255, 51, 51, 0.2); color: #ff3333; border: 1px solid #ff3333; }
+
+        .card-title {
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .card-specs {
+            color: #88ddee;
+            font-size: 12px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            background: rgba(0, 89, 99, 0.1);
+            padding: 10px;
+            border-left: 2px solid #005963;
+        }
+
+        .spec-label {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .card-footer {
+            font-size: 11px;
+            color: #005963;
+            text-transform: uppercase;
+            text-align: right;
+            border-top: 1px dashed #005963;
+            padding-top: 8px;
+        }
+
     </style>
 </head>
 <body>
@@ -1062,11 +1180,35 @@
         </div>
 
         <div class="glass-panel element-2">
-            <button class="status-card">Ships Actively Deployed</button>
-            <button class="status-card">Active Threats</button>
-            <button class="status-card">Enemy Engaged</button>
-            <button class="status-card">Dilithium Reserves</button>
-            <button class="status-card">Active Projects</button>
+            <button class="status-card" data-target="panel-fleet">
+                <span style="font-size: 10px; color: #88ddee; font-weight: 400; letter-spacing: 1px;">COMPUTE NODES</span>
+                <div style="font-size: 26px; color: #33ff77; margin: 4px 0;">142</div>
+                <span style="font-size: 11px;">Ships Deployed</span>
+            </button>
+            
+            <button class="status-card" data-target="panel-threat">
+                <span style="font-size: 10px; color: #88ddee; font-weight: 400; letter-spacing: 1px;">SOC ALERTS (HIGH)</span>
+                <div style="font-size: 26px; color: #ff3333; margin: 4px 0;">3</div>
+                <span style="font-size: 11px;">Active Threats</span>
+            </button>
+            
+            <button class="status-card" data-target="panel-comms">
+                <span style="font-size: 10px; color: #88ddee; font-weight: 400; letter-spacing: 1px;">API GATEWAY</span>
+                <div style="font-size: 26px; color: #00E5FF; margin: 4px 0;">200 <span style="font-size: 14px;">OK</span></div>
+                <span style="font-size: 11px;">Comm Relays</span>
+            </button>
+            
+            <button class="status-card" data-target="panel-asset">
+                <span style="font-size: 10px; color: #88ddee; font-weight: 400; letter-spacing: 1px;">SUPPLY CHAIN (IoT)</span>
+                <div style="font-size: 26px; color: #ffaa00; margin: 4px 0;">18.5%</div>
+                <span style="font-size: 11px;">Dilithium Matrix</span>
+            </button>
+            
+            <button class="status-card" data-target="panel-shipyard">
+                <span style="font-size: 10px; color: #88ddee; font-weight: 400; letter-spacing: 1px;">CI/CD PIPELINE</span>
+                <div style="font-size: 26px; color: #00E5FF; margin: 4px 0;">7</div>
+                <span style="font-size: 11px;">Active Projects</span>
+            </button>
         </div>
 
         <div class="glass-panel element-4">
@@ -1659,24 +1801,320 @@
                 </div>
             </div>
 
-            <div id="panel-shipyard" class="viewscreen-panel">
-                <h1>Utopia Planitia Shipyard</h1>
-                <p>Kanban assembly interface online. Drag and drop authorized.</p>
+           <div id="panel-shipyard" class="viewscreen-panel">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 2px solid #00E5FF; padding-bottom: 10px; width: 100%;">
+                    <div>
+                        <h1 style="color: #00E5FF; text-transform: uppercase; letter-spacing: 4px; margin: 0; text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);">Utopia Planitia Shipyard</h1>
+                        <p style="color: #88ddee; font-size: 14px; margin-top: 5px;">Infrastructure as Code (IaC) // Azure DevOps Provisioning Pipeline</p>
+                    </div>
+                    <button class="btn-topology" style="padding: 10px 15px; font-weight: bold; white-space: nowrap; cursor: pointer;">[ Initialize New Build ]</button>
+                </div>
+
+                <div class="shipyard-board">
+                    
+                    <div class="shipyard-column">
+                        <div class="shipyard-col-header" style="border-top-color: #88ddee;">Engineering Backlog</div>
+                        <div class="shipyard-dropzone" id="zone-backlog">
+                            
+                            <div class="shipyard-card" draggable="true" id="card-1">
+                                <div class="card-type type-maintenance">MAINTENANCE REFIT</div>
+                                <div class="card-title">Deep Space 9 Systems Upgrade</div>
+                                <div class="card-specs">
+                                    <span class="spec-label">Purpose:</span> Legacy database migration to Cosmos DB vCore.<br>
+                                    <span class="spec-label">Specs:</span> Zero-downtime failover, RBAC policy sync.
+                                </div>
+                                <div class="card-footer">Auth: Cmdr. Sisko</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="shipyard-column">
+                        <div class="shipyard-col-header" style="border-top-color: #ffaa00;">Active Assembly [Provisioning]</div>
+                        <div class="shipyard-dropzone" id="zone-assembly">
+                            
+                            <div class="shipyard-card" draggable="true" id="card-2">
+                                <div class="card-type type-new">NEW CONSTRUCTION</div>
+                                <div class="card-title">Sovereign Class Cruiser (Enterprise-E)</div>
+                                <div class="card-specs">
+                                    <span class="spec-label">Purpose:</span> Deep space exploration & high-availability microservices.<br>
+                                    <span class="spec-label">Specs:</span> Azure Kubernetes Service (AKS), Geo-redundant scaling, 50 nodes.
+                                </div>
+                                <div class="card-footer">Auth: Starfleet Command</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="shipyard-column">
+                        <div class="shipyard-col-header" style="border-top-color: #00E5FF;">Systems Integration [Testing]</div>
+                        <div class="shipyard-dropzone" id="zone-integration">
+                            
+                            <div class="shipyard-card" draggable="true" id="card-3">
+                                <div class="card-type type-special">SPECIALIZED BUILD</div>
+                                <div class="card-title">Defiant Class Escort</div>
+                                <div class="card-specs">
+                                    <span class="spec-label">Purpose:</span> Ephemeral threat response / Sandboxed malware analysis.<br>
+                                    <span class="spec-label">Specs:</span> Isolated VNET, ablative armor firewall, 4-hour auto-destruct TTL.
+                                </div>
+                                <div class="card-footer">Auth: Sec-31 Override</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="shipyard-column">
+                        <div class="shipyard-col-header" style="border-top-color: #33ff77;">Spacedock [Production]</div>
+                        <div class="shipyard-dropzone" id="zone-deployed">
+                            </div>
+                    </div>
+
+                </div>
             </div>
 
             <div id="panel-academy" class="viewscreen-panel">
-                <h1>Starfleet Academy</h1>
-                <p>Learning & Development modules online. Awaiting cadet login.</p>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 2px solid #00E5FF; padding-bottom: 10px; width: 100%;">
+                    <div>
+                        <h1 style="color: #00E5FF; text-transform: uppercase; letter-spacing: 4px; margin: 0; text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);">Starfleet Academy</h1>
+                        <p style="color: #88ddee; font-size: 14px; margin-top: 5px;">Officer Commissioning // Advanced Research Center</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 30px; width: 100%; height: calc(100% - 70px);">
+                    
+                    <div style="flex: 1; display: flex; flex-direction: column; background: rgba(2, 6, 10, 0.6); border: 1px solid #005963; border-radius: 4px; padding: 20px; overflow-y: auto;">
+                        <h2 style="color: #00E5FF; font-size: 18px; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px dashed #005963; padding-bottom: 10px;">Officer Aptitude Assessment</h2>
+                        <p style="color: #88ddee; font-size: 14px; margin-bottom: 20px;">Complete the psychometric evaluation to determine optimal fleet deployment.</p>
+
+                        <div class="transmission-form" style="gap: 20px;">
+                            
+                            <div>
+                                <label style="color: #fff;">1. A localized power failure has trapped crew members behind a blast door. Your immediate action?</label>
+                                <select class="holographic-select academy-q" id="q1" style="margin-top: 10px; font-size: 14px;">
+                                    <option value="" disabled selected>Select response tactical approach...</option>
+                                    <option value="command">Coordinate rescue teams and establish a perimeter.</option>
+                                    <option value="engineering">Bypass the primary relay to restore manual door control.</option>
+                                    <option value="science">Scan for atmospheric anomalies causing the power drain.</option>
+                                    <option value="security">Lock down adjacent sectors to prevent further cascading failures.</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label style="color: #fff;">2. An unidentified vessel decloaks off the port bow and charges weapons. Protocol dictates:</label>
+                                <select class="holographic-select academy-q" id="q2" style="margin-top: 10px; font-size: 14px;">
+                                    <option value="" disabled selected>Select response tactical approach...</option>
+                                    <option value="command">Open a subspace hailing channel to initiate dialog.</option>
+                                    <option value="engineering">Divert auxiliary power to reinforce forward shielding.</option>
+                                    <option value="science">Analyze their weapon signature for vulnerabilities.</option>
+                                    <option value="security">Target their warp nacelles and arm quantum torpedoes.</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label style="color: #fff;">3. A deep space outpost is failing to transmit its daily telemetry. You choose to:</label>
+                                <select class="holographic-select academy-q" id="q3" style="margin-top: 10px; font-size: 14px;">
+                                    <option value="" disabled selected>Select response tactical approach...</option>
+                                    <option value="command">Review their last logs for distress signals before acting.</option>
+                                    <option value="engineering">Deploy a probe to boost the subspace relay signal.</option>
+                                    <option value="science">Check solar flare activity for transmission interference.</option>
+                                    <option value="security">Dispatch an armed escort to investigate a potential breach.</option>
+                                </select>
+                            </div>
+
+                            <button class="btn-transmit" id="btn-commission" style="margin-top: 10px;">Process Commissioning</button>
+                        </div>
+
+                        <div id="commission-result" style="display: none; margin-top: 25px; padding: 20px; border: 2px solid #33ff77; background: rgba(51, 255, 119, 0.1); border-radius: 4px; text-align: center; animation: fadeIn 0.5s ease;">
+                            <div style="color: #33ff77; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-size: 12px; margin-bottom: 10px;">[ COMMISSION GRANTED ]</div>
+                            <h3 style="color: #fff; font-size: 24px; margin-bottom: 5px;" id="result-rank">Ensign</h3>
+                            <div style="color: #88ddee; font-size: 16px; font-weight: bold; text-transform: uppercase;" id="result-dept">Operations Division</div>
+                            <p style="color: #88ddee; font-size: 13px; margin-top: 15px;" id="result-desc">Your profile indicates strong analytical skills and systems management.</p>
+                        </div>
+                    </div>
+
+                    <div style="flex: 1; display: flex; flex-direction: column; background: rgba(2, 6, 10, 0.6); border: 1px solid #ffaa00; border-radius: 4px; padding: 20px; overflow-y: auto;">
+                        <h2 style="color: #ffaa00; font-size: 18px; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px dashed #ffaa00; padding-bottom: 10px;">Applied Solutions Research</h2>
+                        <p style="color: #88ddee; font-size: 14px; margin-bottom: 20px;">Review declassified architectural whitepapers mapping Federation challenges to enterprise infrastructure.</p>
+
+                        <div style="background: #02060A; border: 1px solid #005963; padding: 20px; margin-bottom: 20px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+                            <h3 style="color: #00E5FF; font-size: 16px; margin-bottom: 10px; text-transform: uppercase;">Vulcan Science Academy: Legacy Modernization</h3>
+                            <div style="margin-bottom: 15px;">
+                                <strong style="color: #ff3333; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Requirement:</strong>
+                                <p style="color: #88ddee; font-size: 14px; margin-top: 5px; line-height: 1.5;">The Vulcan Science Academy needs to migrate away from their aging on-premises datacenter. They require zero-downtime failover for their predictive logic engines and a hybrid connection to Starfleet Command.</p>
+                            </div>
+                            <div style="border-top: 1px dashed #005963; padding-top: 15px;">
+                                <strong style="color: #33ff77; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Proposed Solution (AZ-305 Architecture):</strong>
+                                <ul style="color: #fff; font-size: 13px; margin-top: 10px; margin-left: 20px; line-height: 1.6;">
+                                    <li>Utilize <strong>Azure Migrate</strong> to map dependencies across their legacy logic engines.</li>
+                                    <li>Deploy <strong>Azure VMware Solution (AVS)</strong> to lift-and-shift existing workloads without refactoring code.</li>
+                                    <li>Establish an <strong>ExpressRoute Gateway</strong> for a private, low-latency hybrid link to Federation Central Command.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="background: #02060A; border: 1px solid #005963; padding: 20px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+                            <h3 style="color: #00E5FF; font-size: 16px; margin-bottom: 10px; text-transform: uppercase;">Deep Space 9: Edge Telemetry Synchronization</h3>
+                            <div style="margin-bottom: 15px;">
+                                <strong style="color: #ff3333; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Requirement:</strong>
+                                <p style="color: #88ddee; font-size: 14px; margin-top: 5px; line-height: 1.5;">DS9 operates in a high-latency, disconnected environment near the wormhole. They need to process massive amounts of sensor telemetry locally, but sync critical threat data back to Earth asynchronously.</p>
+                            </div>
+                            <div style="border-top: 1px dashed #005963; padding-top: 15px;">
+                                <strong style="color: #33ff77; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Proposed Solution (AZ-305 Architecture):</strong>
+                                <ul style="color: #fff; font-size: 13px; margin-top: 10px; margin-left: 20px; line-height: 1.6;">
+                                    <li>Implement <strong>Azure IoT Edge</strong> directly on DS9 compute nodes to filter and process telemetry locally.</li>
+                                    <li>Deploy <strong>Azure Cosmos DB</strong> with multi-region writes for asynchronous data replication when the subspace link is active.</li>
+                                    <li>Utilize <strong>Azure Stream Analytics</strong> to trigger immediate alerts for wormhole anomalies.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
             <div id="panel-simulator" class="viewscreen-panel">
-                <h1>Command Simulator</h1>
-                <p>Kobayashi Maru parameters loaded. Threat environment generated.</p>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 2px solid #00E5FF; padding-bottom: 10px; width: 100%;">
+                    <div>
+                        <h1 style="color: #00E5FF; text-transform: uppercase; letter-spacing: 4px; margin: 0; text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);">Command Simulator</h1>
+                        <p style="color: #88ddee; font-size: 14px; margin-top: 5px;">Kobayashi Maru Scenario Alpha // Cloud Architecture Stress Test</p>
+                    </div>
+                    <button class="btn-topology" id="btn-reset-sim" style="padding: 10px 15px; font-weight: bold; white-space: nowrap; cursor: pointer; color: #ffaa00; border-color: #ffaa00;">[ Reset Simulation ]</button>
+                </div>
+
+                <div style="display: flex; gap: 30px; width: 100%; height: calc(100% - 70px);">
+                    
+                    <div style="flex: 1; display: flex; flex-direction: column; background: rgba(2, 6, 10, 0.6); border: 1px solid #ff3333; border-radius: 4px; padding: 20px; overflow-y: auto;">
+                        
+                        <div style="background: rgba(255, 51, 51, 0.1); border: 1px dashed #ff3333; padding: 15px; margin-bottom: 20px;">
+                            <h2 style="color: #ff3333; font-size: 18px; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 2px;">CRITICAL ALERT: Borg Incursion Detected</h2>
+                            <p style="color: #fff; font-size: 14px; line-height: 1.6;">
+                                <strong>Scenario:</strong> Deep Space Relay Station 47 is experiencing a massive, coordinated data flood from multiple Borg cubes. The relay's primary processing core is at 98% utilization and climbing. Structural integrity (server health) is failing. 
+                            </p>
+                            <p style="color: #88ddee; font-size: 13px; margin-top: 10px; font-style: italic;">
+                                "Commander, if we don't act in the next 60 seconds, the core will breach and we will lose all regional telemetry."
+                            </p>
+                        </div>
+
+                        <h3 style="color: #00E5FF; font-size: 14px; text-transform: uppercase; margin-bottom: 15px;">Select Tactical Response (Architecture Decision):</h3>
+
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <button class="btn-transmit sim-action" id="sim-opt-waf" style="background: transparent; border: 1px solid #00E5FF; color: #00E5FF; text-align: left; padding: 15px; text-transform: none; font-weight: normal; letter-spacing: normal;">
+                                <strong style="display: block; font-size: 14px; margin-bottom: 4px; text-transform: uppercase;">Option 1: Modulate Deflector Shields</strong>
+                                <span style="font-size: 12px; color: #88ddee;">Deploy Edge Protection (Azure Front Door & Web Application Firewall) to inspect and drop malicious packets before they hit the core.</span>
+                            </button>
+
+                            <button class="btn-transmit sim-action" id="sim-opt-scale" style="background: transparent; border: 1px solid #ffaa00; color: #ffaa00; text-align: left; padding: 15px; text-transform: none; font-weight: normal; letter-spacing: normal;">
+                                <strong style="display: block; font-size: 14px; margin-bottom: 4px; text-transform: uppercase;">Option 2: Reroute Auxiliary Power</strong>
+                                <span style="font-size: 12px; color: #88ddee;">Force immediate horizontal scaling (Azure Virtual Machine Scale Sets) to absorb the incoming processing load.</span>
+                            </button>
+
+                            <button class="btn-transmit sim-action" id="sim-opt-dr" style="background: transparent; border: 1px solid #ff3333; color: #ff3333; text-align: left; padding: 15px; text-transform: none; font-weight: normal; letter-spacing: normal;">
+                                <strong style="display: block; font-size: 14px; margin-bottom: 4px; text-transform: uppercase;">Option 3: Evacuate and Scuttle</strong>
+                                <span style="font-size: 12px; color: #88ddee;">Abandon the relay. Initiate regional failover (Azure Site Recovery) to a paired paired region and update DNS routing.</span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="telemetry-terminal" id="sim-terminal" style="flex: 1; border-color: #005963; background: #02060A;">
+                        <div class="terminal-header">Combat Telemetry // Awaiting Command Input</div>
+                        <span style="color: #ff3333;">> WARNING: INCOMING TRAFFIC SPIKE DETECTED.</span><br>
+                        <span style="color: #ffaa00;">> CORE TEMPERATURE: NOMINAL... RISING.</span><br>
+                        <span style="color: #88ddee;">> Awaiting tactical architecture decision...</span><br>
+                    </div>
+
+                </div>
             </div>
 
             <div id="panel-resource" class="viewscreen-panel">
-                <h1>Resource Allocation</h1>
-                <p>FinOps dashboard running. Monitoring Azure compute usage.</p>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 2px solid #00E5FF; padding-bottom: 10px; width: 100%;">
+                    <div>
+                        <h1 style="color: #00E5FF; text-transform: uppercase; letter-spacing: 4px; margin: 0; text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);">Resource Allocation</h1>
+                        <p style="color: #88ddee; font-size: 14px; margin-top: 5px;">FinOps Telemetry // Azure Cost Management & Billing Overview</p>
+                    </div>
+                    <button class="btn-topology" style="padding: 10px 15px; font-weight: bold; white-space: nowrap; cursor: pointer; color: #33ff77; border-color: #33ff77;">[ Export FinOps Report ]</button>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; width: 100%;">
+                    <div style="background: rgba(2, 6, 10, 0.6); border: 1px solid #005963; padding: 15px; border-radius: 4px;">
+                        <div style="color: #88ddee; font-size: 12px; text-transform: uppercase;">Current Compute Burn (MTD)</div>
+                        <div style="color: #fff; font-size: 28px; font-weight: bold; margin: 5px 0;">42,850 <span style="font-size: 14px; color: #88ddee;">Credits</span></div>
+                        <div style="color: #88ddee; font-size: 12px;">Pacing <span style="color: #ffaa00;">+4.2%</span> over forecasted budget.</div>
+                    </div>
+                    <div style="background: rgba(2, 6, 10, 0.6); border: 1px solid #005963; padding: 15px; border-radius: 4px;">
+                        <div style="color: #88ddee; font-size: 12px; text-transform: uppercase;">Projected Monthly Spend</div>
+                        <div id="projected-spend" style="color: #ffaa00; font-size: 28px; font-weight: bold; margin: 5px 0; transition: color 0.5s ease;">89,120 <span style="font-size: 14px; color: #88ddee;">Credits</span></div>
+                        <div style="color: #88ddee; font-size: 12px;">Total budget cap: 90,000 Credits.</div>
+                    </div>
+                    <div style="background: rgba(51, 255, 119, 0.1); border: 1px solid #33ff77; padding: 15px; border-radius: 4px; box-shadow: inset 0 0 15px rgba(51, 255, 119, 0.1);">
+                        <div style="color: #33ff77; font-size: 12px; text-transform: uppercase; font-weight: bold;">Realized Optimization Savings</div>
+                        <div id="optimization-savings" style="color: #33ff77; font-size: 28px; font-weight: bold; margin: 5px 0; transition: color 0.5s ease;">12,400 <span style="font-size: 14px; color: #33ff77;">Credits</span></div>
+                        <div style="color: #88ddee; font-size: 12px;">Saved via Reserved Instances & Spot VMs.</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 20px; width: 100%;">
+                    
+                    <div style="flex: 2; background: rgba(2, 6, 10, 0.6); border: 1px solid #005963; padding: 20px; border-radius: 4px;">
+                        <h2 style="color: #00E5FF; font-size: 16px; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px dashed #005963; padding-bottom: 10px;">Resource Allocation by Division (Tagging)</h2>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; color: #fff; font-size: 13px; margin-bottom: 5px;">
+                                    <span>Command & Control [VNET Gateway, ExpressRoute]</span>
+                                    <span>32% (13,712 Credits)</span>
+                                </div>
+                                <div style="width: 100%; background: #02060A; height: 10px; border-radius: 5px; overflow: hidden; border: 1px solid #005963;">
+                                    <div style="width: 32%; background: #00E5FF; height: 100%;"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div style="display: flex; justify-content: space-between; color: #fff; font-size: 13px; margin-bottom: 5px;">
+                                    <span>Engineering [Virtual Machine Scale Sets]</span>
+                                    <span>45% (19,282 Credits)</span>
+                                </div>
+                                <div style="width: 100%; background: #02060A; height: 10px; border-radius: 5px; overflow: hidden; border: 1px solid #005963;">
+                                    <div style="width: 45%; background: #ffaa00; height: 100%;"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div style="display: flex; justify-content: space-between; color: #fff; font-size: 13px; margin-bottom: 5px;">
+                                    <span>Science [Cosmos DB, AI Cognitive Services]</span>
+                                    <span>18% (7,713 Credits)</span>
+                                </div>
+                                <div style="width: 100%; background: #02060A; height: 10px; border-radius: 5px; overflow: hidden; border: 1px solid #005963;">
+                                    <div style="width: 18%; background: #88ddee; height: 100%;"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div style="display: flex; justify-content: space-between; color: #fff; font-size: 13px; margin-bottom: 5px;">
+                                    <span>Security [Sentinel SIEM, WAF Log Analytics]</span>
+                                    <span>5% (2,142 Credits)</span>
+                                </div>
+                                <div style="width: 100%; background: #02060A; height: 10px; border-radius: 5px; overflow: hidden; border: 1px solid #005963;">
+                                    <div style="width: 5%; background: #ff3333; height: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="flex: 1; background: rgba(2, 6, 10, 0.6); border: 1px solid #ffaa00; padding: 20px; border-radius: 4px; display: flex; flex-direction: column;">
+                        <h2 style="color: #ffaa00; font-size: 16px; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px dashed #ffaa00; padding-bottom: 10px;">System Efficiency Advisor</h2>
+                        
+                        <div id="advisor-card" style="background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3); padding: 15px; border-radius: 4px;">
+                            <div style="color: #fff; font-weight: bold; font-size: 14px;">Inefficiency Detected: Hologrid Processing</div>
+                            <div style="color: #88ddee; font-size: 12px; margin-top: 5px;">Resource: <span style="color: #ffaa00;">Holodeck-Cluster-Alpha (Idle VMs)</span></div>
+                            <div style="color: #88ddee; font-size: 12px; margin-bottom: 10px;">Analysis: Compute nodes have averaged < 2% CPU utilization for 168 hours. No active connections.</div>
+                            <div style="color: #33ff77; font-weight: bold; font-size: 13px; margin-bottom: 15px;">Potential Savings: 4,120 Credits/mo</div>
+                            
+                            <button id="btn-optimize-cost" class="btn-topology" style="font-size: 12px; padding: 8px 10px; color: #ffaa00; border-color: #ffaa00; cursor: pointer; width: 100%; font-weight: bold; text-transform: uppercase;">[ Execute Auto-Deallocation ]</button>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
             <div id="panel-earth-defense" class="viewscreen-panel">
@@ -1733,6 +2171,21 @@
                 // Activate clicked tab
                 button.classList.add('active-tab');
                 document.getElementById(targetId).classList.add('active-sub-panel');
+            });
+        });
+
+// --- GLOBAL TELEMETRY DASHBOARD SHORTCUTS ---
+        const statusCards = document.querySelectorAll('.status-card[data-target]');
+        
+        statusCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const targetId = card.getAttribute('data-target');
+                // Find the corresponding left-nav button and digitally 'click' it 
+                // so the left menu highlights correctly while changing the room
+                const matchingNavBtn = document.querySelector(`.nav-btn[data-target="${targetId}"]`);
+                if(matchingNavBtn) {
+                    matchingNavBtn.click();
+                }
             });
         });
 
@@ -2099,6 +2552,255 @@
                     }, 1000);
 
                 }, 2500);
+            });
+        }
+
+// --- SHIPYARD: DRAG AND DROP KANBAN LOGIC ---
+        const draggables = document.querySelectorAll('.shipyard-card');
+        const dropzones = document.querySelectorAll('.shipyard-dropzone');
+
+        // Add event listeners to every card
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => {
+                draggable.classList.add('is-dragging');
+            });
+
+            draggable.addEventListener('dragend', () => {
+                draggable.classList.remove('is-dragging');
+            });
+        });
+
+        // Add event listeners to every column dropzone
+        dropzones.forEach(zone => {
+            zone.addEventListener('dragover', e => {
+                e.preventDefault(); // Required to allow dropping
+                zone.classList.add('drag-over');
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('drag-over');
+            });
+
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                
+                // Find the card that is currently being dragged and append it to this new column
+                const draggedCard = document.querySelector('.is-dragging');
+                if (draggedCard) {
+                    zone.appendChild(draggedCard);
+                    
+                    // Optional SE Flex: If dropped in "Spacedock", briefly flash it green to signify deployment
+                    if(zone.id === 'zone-deployed') {
+                        draggedCard.style.boxShadow = "0 0 15px rgba(51, 255, 119, 0.6)";
+                        setTimeout(() => {
+                            draggedCard.style.boxShadow = "inset 0 0 10px rgba(0,0,0,0.5), 0 4px 6px rgba(0,0,0,0.3)";
+                        }, 1000);
+                    }
+                }
+            });
+        });
+
+// --- ACADEMY: COMMISSIONING ASSESSMENT LOGIC ---
+        const btnCommission = document.getElementById('btn-commission');
+        const commissionResult = document.getElementById('commission-result');
+        const resRank = document.getElementById('result-rank');
+        const resDept = document.getElementById('result-dept');
+        const resDesc = document.getElementById('result-desc');
+
+        if(btnCommission) {
+            btnCommission.addEventListener('click', () => {
+                const q1 = document.getElementById('q1').value;
+                const q2 = document.getElementById('q2').value;
+                const q3 = document.getElementById('q3').value;
+
+                if(!q1 || !q2 || !q3) {
+                    alert("COMMAND ERROR: All assessment parameters must be completed.");
+                    return;
+                }
+
+                // Tally the results
+                const counts = { command: 0, engineering: 0, science: 0, security: 0 };
+                counts[q1]++;
+                counts[q2]++;
+                counts[q3]++;
+
+                // Find the highest score
+                let topDept = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+
+                // Map results to UI
+                commissionResult.style.display = "block";
+                btnCommission.style.display = "none"; // Hide button once taken
+
+                switch(topDept) {
+                    case 'command':
+                        resRank.innerText = "Commander";
+                        resRank.style.color = "#ff3333";
+                        resDept.innerText = "Command & Operations";
+                        resDesc.innerText = "Profile: Exceptional leadership and high-level strategic orchestration. Recommended for immediate bridge officer deployment.";
+                        commissionResult.style.borderColor = "#ff3333";
+                        commissionResult.style.background = "rgba(255, 51, 51, 0.1)";
+                        break;
+                    case 'engineering':
+                        resRank.innerText = "Lieutenant Commander";
+                        resRank.style.color = "#ffaa00";
+                        resDept.innerText = "Engineering Corps";
+                        resDesc.innerText = "Profile: Advanced aptitude for infrastructure troubleshooting and systems architecture. Recommended for Utopia Planitia or Warp Core Management.";
+                        commissionResult.style.borderColor = "#ffaa00";
+                        commissionResult.style.background = "rgba(255, 170, 0, 0.1)";
+                        break;
+                    case 'science':
+                        resRank.innerText = "Lieutenant";
+                        resRank.style.color = "#00E5FF";
+                        resDept.innerText = "Science & Medical Division";
+                        resDesc.innerText = "Profile: Highly analytical. Superior data synthesis and anomaly resolution skills. Recommended for Stellar Cartography or Deep Space Research.";
+                        commissionResult.style.borderColor = "#00E5FF";
+                        commissionResult.style.background = "rgba(0, 229, 255, 0.1)";
+                        break;
+                    case 'security':
+                        resRank.innerText = "Lieutenant";
+                        resRank.style.color = "#ffff33";
+                        resDept.innerText = "Tactical & Security";
+                        resDesc.innerText = "Profile: Decisive and perimeter-focused. Strong instinct for risk mitigation and threat response. Recommended for Armory or Away Team Command.";
+                        commissionResult.style.borderColor = "#ffff33";
+                        commissionResult.style.background = "rgba(255, 255, 51, 0.1)";
+                        break;
+                }
+            });
+        }
+
+// --- COMMAND SIMULATOR: KOBAYASHI MARU (AZ-305) ---
+        const btnSimWaf = document.getElementById('sim-opt-waf');
+        const btnSimScale = document.getElementById('sim-opt-scale');
+        const btnSimDr = document.getElementById('sim-opt-dr');
+        const btnResetSim = document.getElementById('btn-reset-sim');
+        const simTerminal = document.getElementById('sim-terminal');
+        const simActions = document.querySelectorAll('.sim-action');
+
+        function disableSimButtons() {
+            simActions.forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = "0.5";
+                btn.style.cursor = "not-allowed";
+            });
+        }
+
+        function enableSimButtons() {
+            simActions.forEach(btn => {
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                btn.style.cursor = "pointer";
+            });
+        }
+
+        function logSim(message, color, delay) {
+            setTimeout(() => {
+                const newLine = document.createElement('div');
+                newLine.style.color = color;
+                newLine.style.marginTop = "8px";
+                newLine.innerHTML = `> ${message}`;
+                simTerminal.appendChild(newLine);
+                simTerminal.scrollTop = simTerminal.scrollHeight;
+            }, delay);
+        }
+
+        if(btnSimWaf && simTerminal) {
+            
+            // OPTION 1: WAF (The Smart Mitigation)
+            btnSimWaf.addEventListener('click', () => {
+                disableSimButtons();
+                simTerminal.innerHTML = `<div class="terminal-header" style="color: #00E5FF; border-bottom-color: #00E5FF;">Executing Option 1: Edge Security Mitigation</div>`;
+                
+                logSim("Modulating deflector shields...", "#00E5FF", 500);
+                logSim("Deploying Azure Front Door globally...", "#88ddee", 1500);
+                logSim("Applying Web Application Firewall (WAF) rate-limiting ruleset...", "#88ddee", 2500);
+                logSim("Analyzing incoming Borg traffic signatures...", "#ffaa00", 3800);
+                logSim("Layer 7 volumetric attack identified. Dropping malicious packets at the edge.", "#33ff77", 5000);
+                
+                logSim("<strong>SIMULATION RESULT: SUCCESS.</strong> The application core remains online and performant. You successfully mitigated the attack without incurring massive auto-scaling compute costs. Excellent architectural decision.", "#33ff77", 6500);
+            });
+
+            // OPTION 2: AUTO-SCALE (The Brute Force)
+            btnSimScale.addEventListener('click', () => {
+                disableSimButtons();
+                simTerminal.innerHTML = `<div class="terminal-header" style="color: #ffaa00; border-bottom-color: #ffaa00;">Executing Option 2: Horizontal Scaling</div>`;
+                
+                logSim("Rerouting auxiliary power to processing core...", "#ffaa00", 500);
+                logSim("Triggering Azure Monitor CPU threshold alerts...", "#88ddee", 1500);
+                logSim("Initiating Virtual Machine Scale Set (VMSS) expansion...", "#88ddee", 2500);
+                logSim("Provisioning 50 additional compute nodes...", "#ffaa00", 3800);
+                logSim("Core stabilization achieved. Traffic absorbed.", "#33ff77", 5000);
+                
+                logSim("<strong>SIMULATION RESULT: PARTIAL SUCCESS.</strong> The relay survived, but your FinOps dashboard is screaming. By absorbing a DDoS attack with pure compute power instead of blocking it at the edge, you just spent the Federation's entire monthly IT budget in 4 hours.", "#ffaa00", 6500);
+            });
+
+            // OPTION 3: DR / FAILOVER (The Nuclear Option)
+            btnSimDr.addEventListener('click', () => {
+                disableSimButtons();
+                simTerminal.innerHTML = `<div class="terminal-header" style="color: #ff3333; border-bottom-color: #ff3333;">Executing Option 3: Regional Failover</div>`;
+                
+                logSim("Initiating evacuation protocol. Scuttling Relay 47...", "#ff3333", 500);
+                logSim("Triggering Azure Site Recovery (ASR) runbooks...", "#88ddee", 1500);
+                logSim("Failing over database to secondary paired region (Vulcan East)...", "#88ddee", 2500);
+                logSim("Updating Azure Traffic Manager DNS records...", "#ffaa00", 3800);
+                logSim("Traffic successfully rerouted. Relay 47 destroyed.", "#33ff77", 5000);
+                
+                logSim("<strong>SIMULATION RESULT: SURVIVAL.</strong> Data integrity maintained with zero RPO data loss. However, you destroyed a multi-billion credit asset for a traffic spike that could have been mitigated by a WAF. Command will be reviewing this incident.", "#ffaa00", 6500);
+            });
+
+            // RESET BUTTON
+            btnResetSim.addEventListener('click', () => {
+                enableSimButtons();
+                simTerminal.innerHTML = `
+                    <div class="terminal-header">Combat Telemetry // Awaiting Command Input</div>
+                    <span style="color: #ff3333;">> WARNING: INCOMING TRAFFIC SPIKE DETECTED.</span><br>
+                    <span style="color: #ffaa00;">> CORE TEMPERATURE: NOMINAL... RISING.</span><br>
+                    <span style="color: #88ddee;">> Awaiting tactical architecture decision...</span><br>
+                `;
+            });
+        }
+
+// --- RESOURCE ALLOCATION: FINOPS OPTIMIZATION DEMO ---
+        const btnOptimizeCost = document.getElementById('btn-optimize-cost');
+        const advisorCard = document.getElementById('advisor-card');
+        const projectedSpend = document.getElementById('projected-spend');
+        const optimizationSavings = document.getElementById('optimization-savings');
+
+        if (btnOptimizeCost && advisorCard) {
+            btnOptimizeCost.addEventListener('click', () => {
+                // Change button state
+                btnOptimizeCost.disabled = true;
+                btnOptimizeCost.innerText = "[ Running Azure CLI Script... ]";
+                btnOptimizeCost.style.borderColor = "#00E5FF";
+                btnOptimizeCost.style.color = "#00E5FF";
+
+                // Simulate execution time
+                setTimeout(() => {
+                    // Update the Advisor Card to show success
+                    advisorCard.style.background = "rgba(51, 255, 119, 0.1)";
+                    advisorCard.style.borderColor = "rgba(51, 255, 119, 0.3)";
+                    advisorCard.innerHTML = `
+                        <div style="color: #33ff77; font-weight: bold; font-size: 14px;">[ OPTIMIZATION COMPLETE ]</div>
+                        <div style="color: #88ddee; font-size: 12px; margin-top: 5px;">Action: Successfully deallocated 14 idle VM instances.</div>
+                        <div style="color: #88ddee; font-size: 12px;">Tag: Holodeck-Cluster-Alpha</div>
+                    `;
+
+                    // Update the KPI metrics to reflect the saved money
+                    // Old spend: 89,120. Minus 4,120 = 85,000
+                    projectedSpend.innerHTML = `85,000 <span style="font-size: 14px; color: #88ddee;">Credits</span>`;
+                    projectedSpend.style.color = "#33ff77"; // Turn the projected spend green because it's safer now
+
+                    // Old savings: 12,400. Plus 4,120 = 16,520
+                    optimizationSavings.innerHTML = `16,520 <span style="font-size: 14px; color: #33ff77;">Credits</span>`;
+                    
+                    // Flash the savings box to draw the eye
+                    const savingsBox = optimizationSavings.parentElement;
+                    savingsBox.style.background = "rgba(51, 255, 119, 0.3)";
+                    setTimeout(() => {
+                        savingsBox.style.background = "rgba(51, 255, 119, 0.1)";
+                    }, 500);
+
+                }, 1800);
             });
         }
 
